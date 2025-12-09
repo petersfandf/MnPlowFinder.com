@@ -2,17 +2,19 @@ import { useState, useMemo } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ProviderCard, Provider } from "@/components/ProviderCard";
+import { ProviderMap } from "@/components/ProviderMap";
 import providersData from "@/data/providers.json";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Search, MapPin, Filter, PlusCircle } from "lucide-react";
+import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List } from "lucide-react";
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
 
 export function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
   const [selectedService, setSelectedService] = useState("all");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
 
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
@@ -116,20 +118,43 @@ export function Home() {
                   ))}
                 </SelectContent>
               </Select>
+              
+              <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+              
+              <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200">
+                <button 
+                  onClick={() => setViewMode("list")}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === "list" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  <List className="h-4 w-4" /> List
+                </button>
+                <button 
+                  onClick={() => setViewMode("map")}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === "map" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+                >
+                  <MapIcon className="h-4 w-4" /> Map
+                </button>
+              </div>
           </div>
           
-          <div className="text-sm text-slate-500">
+          <div className="text-sm text-slate-500 w-full sm:w-auto text-right">
             Showing <strong>{filteredProviders.length}</strong> providers
           </div>
         </div>
 
-        {/* Results Grid */}
+        {/* Results Grid / Map */}
         {filteredProviders.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProviders.map((provider) => (
-              <ProviderCard key={provider.id} provider={provider} />
-            ))}
-          </div>
+          viewMode === "list" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-500">
+              {filteredProviders.map((provider) => (
+                <ProviderCard key={provider.id} provider={provider} />
+              ))}
+            </div>
+          ) : (
+            <div className="animate-in fade-in duration-500">
+              <ProviderMap providers={filteredProviders} />
+            </div>
+          )
         ) : (
           <div className="text-center py-20 bg-white rounded-lg border border-slate-200 border-dashed">
             <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">

@@ -7,12 +7,14 @@ import NotFound from "@/pages/not-found";
 import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { CityPage } from "@/pages/CityPage";
+import { ProviderPage } from "@/pages/ProviderPage";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/provider/:id/:slug" component={ProviderPage} />
       {/* Catch-all for city pages like /lake-city-mn-snow-removal */}
       <Route path="/:slug" component={CityPage} />
       <Route component={NotFound} />
