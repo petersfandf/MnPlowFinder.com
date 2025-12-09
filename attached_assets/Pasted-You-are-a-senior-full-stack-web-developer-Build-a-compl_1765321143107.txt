@@ -1,0 +1,84 @@
+You are a senior full stack web developer. Build a complete, production ready small website for:
+
+Domain: mnplowfinder.com
+Brand: MN Plow Finder
+Region: Southeast Minnesota (SE MN) – Lake City, Red Wing, Wabasha, Goodhue, Rochester and nearby towns.
+
+Overall intent:
+- Create a simple, fast, SEO friendly directory website that lists local snow removal providers.
+- The site should be useful for SE MN residents who are searching for driveway plowing, sidewalk clearing, salting and other snow services.
+- The site should also help advertise those service providers in one place.
+- Long term goal is passive income through search engine traffic and future monetization such as ads and featured listings. The first version only needs the directory and static content. Monetization can be added later.
+
+Technical requirements:
+- Use a simple static stack that works on Replit: HTML, CSS and vanilla JavaScript.
+- Organize files as: index.html, styles.css, script.js, and a separate data file providers.json that holds the business listings.
+- Make the layout fully responsive for mobile first, then tablet and desktop.
+- The design should be clean and minimal, with clear headings, good spacing and readable fonts.
+
+SEO requirements:
+- Use proper HTML structure with one H1 per page, descriptive H2 and H3 headings, and semantic tags.
+- Add basic meta tags for title and description that target keywords such as “snow removal SE Minnesota”, “driveway plowing Lake City”, “SE MN snow plow directory”.
+- Use descriptive alt text on any icons or images.
+- Create static content for each main town / area as separate sections in index.html (or separate HTML pages if you prefer) with short paragraphs that mention the town name and type of services, for example “Snow removal in Lake City Minnesota”.
+- Make the URL structure and internal links friendly for search engines. If you create separate pages, name them like:
+  - /lake-city-mn-snow-removal.html
+  - /red-wing-mn-snow-removal.html
+  - /wabasha-mn-snow-removal.html
+  etc.
+
+Functional requirements:
+- On the homepage include:
+  - A clear hero section with a title like “Find Snow Removal in Southeast Minnesota”.
+  - A short paragraph explaining that MN Plow Finder is a simple local directory of plow services and that it is free for residents to use.
+  - A search and filter interface:
+    - Text input to search by business name or town.
+    - Dropdown or checkboxes to filter by city and by service type (driveway plowing, sidewalk clearing, salting, rural driveway, commercial, 24 hour service).
+  - A grid or list of provider cards. Each card should display:
+    - Business name
+    - City and service area
+    - Phone
+    - Website link if available
+    - Service tags (for example “Residential”, “Rural driveways”, “Sidewalks”, “24/7”)
+    - Short description field.
+- Load the providers from providers.json via JavaScript and render them dynamically into the page.
+- Implement client side filtering for city and service type and for text search so visitors can quickly narrow down providers.
+- Include an “Add your business” section at the bottom with a simple HTML form that does not need a backend yet. For now just show a message like “Email us at [placeholder] to be added to the directory” and include form fields (name, phone, city, services) for future use.
+- Include an About page or section that:
+  - Explains that the site is an independent SE MN snow removal directory.
+  - States that the goal is to connect residents with local operators and over time support the site with passive income such as ads or featured listings.
+- Include a simple Contact section with a placeholder email address and a note about how providers can request edits to their listing.
+
+Data structure:
+- In providers.json create a sample array of at least 10 providers with realistic fake data for SE MN. Each provider object should include:
+  - id
+  - name
+  - city
+  - serviceAreas (array of towns or general areas)
+  - services (array such as ["Driveway plowing", "Sidewalk clearing", "Salting"])
+  - residential (boolean)
+  - commercial (boolean)
+  - ruralDriveways (boolean)
+  - twentyFourSeven (boolean)
+  - phone
+  - website
+  - description
+
+Code quality:
+- Comment the JavaScript to explain how filtering and rendering work.
+- Comment providers.json structure so it is easy for a non programmer to add or edit providers later.
+- Keep CSS organized and readable with clear class names.
+
+Deliverables:
+- Complete working code in Replit with:
+  - index.html
+  - Optional additional city specific HTML pages if you think they improve SEO.
+  - styles.css
+  - script.js
+  - providers.json
+- After writing the code, briefly explain in a README section inside index.html comments:
+  - How to add new providers to providers.json
+  - How to add new towns or service categories
+  - How to deploy this as a static site (for example using Replit’s built in web hosting or exporting to another static host).
+
+Build this now.
