@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Globe, MapPin, Check, Clock, ArrowRight } from "lucide-react";
+import { Phone, Globe, MapPin, Check, Clock, ArrowRight, Star } from "lucide-react";
 import { Link } from "wouter";
 
 export interface Provider {
@@ -19,6 +19,8 @@ export interface Provider {
   phone: string;
   website: string;
   description: string;
+  rating?: number;
+  reviewCount?: number;
 }
 
 interface ProviderCardProps {
@@ -39,9 +41,25 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                 <CardTitle className="text-xl font-bold text-slate-900">{provider.name}</CardTitle>
               </a>
             </Link>
-            <div className="flex items-center text-sm text-slate-500 mt-1 gap-1">
-              <MapPin className="h-3.5 w-3.5" />
-              {provider.city} • Serving: {provider.serviceAreas.join(", ")}
+            <div className="flex flex-col gap-1 mt-1">
+              <div className="flex items-center text-sm text-slate-500 gap-1">
+                <MapPin className="h-3.5 w-3.5" />
+                {provider.city} • Serving: {provider.serviceAreas.join(", ")}
+              </div>
+              {provider.rating && (
+                <div className="flex items-center gap-1">
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star 
+                        key={i} 
+                        className={`h-3 w-3 ${i < Math.floor(provider.rating || 0) ? "text-yellow-400 fill-yellow-400" : "text-slate-300"}`} 
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs font-medium text-slate-700">{provider.rating}</span>
+                  <span className="text-xs text-slate-400">({provider.reviewCount})</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
