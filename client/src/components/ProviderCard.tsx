@@ -21,6 +21,7 @@ export interface Provider {
   description: string;
   rating?: number;
   reviewCount?: number;
+  featured?: boolean;
 }
 
 interface ProviderCardProps {
@@ -32,10 +33,17 @@ export function ProviderCard({ provider }: ProviderCardProps) {
   const slug = provider.name.toLowerCase().replace(/\s+/g, '-');
   
   return (
-    <Card className="flex flex-col h-full hover:shadow-md transition-shadow duration-200 border-slate-200">
+    <Card className={`flex flex-col h-full hover:shadow-md transition-shadow duration-200 ${provider.featured ? 'border-yellow-400 shadow-sm ring-1 ring-yellow-400/50' : 'border-slate-200'}`}>
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-4">
           <div>
+            <div className="flex items-center gap-2 mb-1">
+              {provider.featured && (
+                <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-200 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
+                  Featured
+                </Badge>
+              )}
+            </div>
             <Link href={`/provider/${provider.id}/${slug}`}>
               <a className="hover:underline hover:text-blue-600 transition-colors">
                 <CardTitle className="text-xl font-bold text-slate-900">{provider.name}</CardTitle>

@@ -39,6 +39,11 @@ export function Home() {
       const matchesService = selectedService === "all" || provider.services.includes(selectedService);
 
       return matchesSearch && matchesCity && matchesService;
+    }).sort((a, b) => {
+      // Sort featured providers to the top
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return 0;
     });
   }, [searchTerm, selectedCity, selectedService]);
 
@@ -188,29 +193,37 @@ export function Home() {
             Get listed in the MN Plow Finder directory for free. Help local residents find you easily during the winter season.
           </p>
           
-          <form className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <form 
+            className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200"
+            onSubmit={(e) => {
+              e.preventDefault();
+              window.location.href = `mailto:addme@mnplowfinder.com?subject=New Provider Listing Request&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
+            }}
+          >
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Business Name</label>
-              <Input placeholder="Joe's Plowing" />
+              <Input name="businessName" placeholder="Joe's Plowing" required />
             </div>
             <div className="grid grid-cols-2 gap-4">
                <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                <Input placeholder="555-0123" />
+                <Input name="phone" placeholder="555-0123" required />
               </div>
                <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
-                <Input placeholder="Lake City" />
+                <Input name="city" placeholder="Lake City" required />
               </div>
             </div>
             <div>
                <label className="block text-sm font-medium text-slate-700 mb-1">Services Offered</label>
-               <Input placeholder="Driveways, Salting, etc." />
+               <Input name="services" placeholder="Driveways, Salting, etc." />
             </div>
             
-            <Button className="w-full bg-slate-900 hover:bg-slate-800">Request Listing</Button>
+            <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800">
+              Send Request via Email
+            </Button>
             <p className="text-xs text-center text-slate-400 mt-4">
-              This is a demo form. For now, please email addme@mnplowfinder.com
+              This will open your default email client to send the request.
             </p>
           </form>
         </div>

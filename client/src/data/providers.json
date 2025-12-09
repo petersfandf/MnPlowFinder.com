@@ -15,7 +15,8 @@
     "website": "https://example.com/lcsnow",
     "description": "Reliable residential and commercial snow removal in Lake City. We offer seasonal contracts and per-visit rates.",
     "rating": 4.8,
-    "reviewCount": 24
+    "reviewCount": 24,
+    "featured": true
   },
   {
     "id": 2,
