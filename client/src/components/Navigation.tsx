@@ -25,32 +25,45 @@ export function Navigation() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              <a
-                onClick={(e) => {
-                   if (link.href === "/#add-business") {
-                     e.preventDefault();
-                     const el = document.getElementById("add-business");
-                     if (el) {
-                       el.scrollIntoView({ behavior: "smooth" });
-                     } else {
-                        // If we are not on the home page, go there first
-                        window.location.href = "/#add-business";
-                     }
-                   }
-                }}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location === link.href
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                )}
-              >
-                {link.label}
-              </a>
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.href === "/#add-business") {
+              return (
+                <a
+                  key={link.href}
+                  href="/#add-business"
+                  onClick={(e) => {
+                    if (window.location.pathname === "/") {
+                      e.preventDefault();
+                      const el = document.getElementById("add-business");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary",
+                    location === link.href
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {link.label}
+                </a>
+              );
+            }
+            return (
+              <Link key={link.href} href={link.href}>
+                <a
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary",
+                    location === link.href
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {link.label}
+                </a>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Mobile Nav Toggle */}
@@ -65,33 +78,47 @@ export function Navigation() {
         {/* Mobile Nav Menu */}
       {isOpen && (
         <div className="md:hidden border-t bg-white p-4 flex flex-col gap-4 shadow-lg absolute w-full">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              <a
-                onClick={(e) => {
-                  setIsOpen(false);
-                  if (link.href === "/#add-business") {
-                     e.preventDefault();
-                     const el = document.getElementById("add-business");
-                     if (el) {
-                       el.scrollIntoView({ behavior: "smooth" });
-                     } else {
-                        // If we are not on the home page, go there first
-                        window.location.href = "/#add-business";
-                     }
-                   }
-                }}
-                className={cn(
-                  "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors",
-                  location === link.href
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground"
-                )}
-              >
-                {link.label}
-              </a>
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.href === "/#add-business") {
+              return (
+                <a
+                  key={link.href}
+                  href="/#add-business"
+                  onClick={(e) => {
+                    setIsOpen(false);
+                    if (window.location.pathname === "/") {
+                      e.preventDefault();
+                      const el = document.getElementById("add-business");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className={cn(
+                    "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors",
+                    location === link.href
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground"
+                  )}
+                >
+                  {link.label}
+                </a>
+              );
+            }
+            return (
+              <Link key={link.href} href={link.href}>
+                <a
+                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors",
+                    location === link.href
+                      ? "bg-primary/10 text-primary"
+                      : "text-foreground"
+                  )}
+                >
+                  {link.label}
+                </a>
+              </Link>
+            );
+          })}
         </div>
       )}
     </nav>
