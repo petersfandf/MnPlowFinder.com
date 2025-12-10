@@ -28,6 +28,18 @@ export function Navigation() {
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href}>
               <a
+                onClick={(e) => {
+                   if (link.href === "/#add-business") {
+                     e.preventDefault();
+                     const el = document.getElementById("add-business");
+                     if (el) {
+                       el.scrollIntoView({ behavior: "smooth" });
+                     } else {
+                        // If we are not on the home page, go there first
+                        window.location.href = "/#add-business";
+                     }
+                   }
+                }}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
                   location === link.href
@@ -50,13 +62,25 @@ export function Navigation() {
         </button>
       </div>
 
-      {/* Mobile Nav Menu */}
+        {/* Mobile Nav Menu */}
       {isOpen && (
         <div className="md:hidden border-t bg-white p-4 flex flex-col gap-4 shadow-lg absolute w-full">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href}>
               <a
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  setIsOpen(false);
+                  if (link.href === "/#add-business") {
+                     e.preventDefault();
+                     const el = document.getElementById("add-business");
+                     if (el) {
+                       el.scrollIntoView({ behavior: "smooth" });
+                     } else {
+                        // If we are not on the home page, go there first
+                        window.location.href = "/#add-business";
+                     }
+                   }
+                }}
                 className={cn(
                   "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors",
                   location === link.href
