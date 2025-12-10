@@ -1,5 +1,6 @@
 import { Snowflake } from "lucide-react";
 import { Link } from "wouter";
+import { siteConfig } from "@/config";
 
 export function Footer() {
   return (
@@ -9,7 +10,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 font-heading font-bold text-xl text-white mb-4">
               <Snowflake className="h-6 w-6 fill-current" />
-              <span>MN Plow Finder</span>
+              <span>{siteConfig.siteName}</span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
               Connecting residents in Southeast Minnesota with reliable local snow removal providers. 
@@ -32,14 +33,14 @@ export function Footer() {
             <p className="text-sm text-slate-400 mb-4">
               Are you a snow removal professional in SE MN? Get listed in our directory for free.
             </p>
-            <a href="mailto:addme@mnplowfinder.com" className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
+            <a href={`mailto:${siteConfig.adminEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
               Request Listing
             </a>
           </div>
         </div>
         
         <div className="border-t border-slate-800 pt-8 text-center text-xs text-slate-500">
-          <p>&copy; {new Date().getFullYear()} MN Plow Finder. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {siteConfig.siteName}. All rights reserved.</p>
           <p className="mt-2">Not affiliated with any service provider. Verify all services independently.</p>
         </div>
       </div>

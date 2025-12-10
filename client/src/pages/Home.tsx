@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List } from "lucide-react";
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
+import { siteConfig } from "@/config";
 
 export function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -190,14 +191,14 @@ export function Home() {
           </div>
           <h2 className="text-3xl font-bold text-slate-900 mb-4">Own a snow removal business?</h2>
           <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-            Get listed in the MN Plow Finder directory for free. Help local residents find you easily during the winter season.
+            Get listed in the {siteConfig.siteName} directory for free. Help local residents find you easily during the winter season.
           </p>
           
           <form 
             className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200"
             onSubmit={(e) => {
               e.preventDefault();
-              window.location.href = `mailto:addme@mnplowfinder.com?subject=New Provider Listing Request&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
+              window.location.href = `mailto:${siteConfig.adminEmail}?subject=${siteConfig.addBusinessSubject}&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
             }}
           >
             <div>
