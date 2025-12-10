@@ -1,4 +1,5 @@
 import { useRoute, Link } from "wouter";
+import { useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import providersData from "@/data/providers.json";
@@ -12,6 +13,10 @@ export function ProviderPage() {
   const id = parseInt(params?.id || "0");
   
   const provider = providersData.find(p => p.id === id) as Provider | undefined;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   if (!provider) {
     return (
