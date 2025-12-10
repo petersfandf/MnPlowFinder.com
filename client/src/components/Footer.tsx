@@ -29,19 +29,27 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-bold text-white mb-4">For Providers</h3>
-            <p className="text-sm text-slate-400 mb-4">
-              Are you a snow removal professional in SE MN? Get listed in our directory for free.
-            </p>
-            <a href={`mailto:${siteConfig.adminEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
-              Request Listing
-            </a>
+            <h3 className="font-bold text-white mb-4">About Us</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/about"><a className="hover:text-white transition-colors">About MN Plow Finder</a></Link></li>
+              <li><Link href="/partner"><a className="hover:text-white transition-colors">Partner With Us</a></Link></li>
+            </ul>
+            <div className="mt-8">
+              <h3 className="font-bold text-white mb-4">For Providers</h3>
+              <p className="text-sm text-slate-400 mb-4">
+                Are you a snow removal professional in SE MN? Get listed in our directory for free.
+              </p>
+              <a href={`mailto:${siteConfig.adminEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
+                Request Listing
+              </a>
+            </div>
           </div>
         </div>
         
         <div className="border-t border-slate-800 pt-8 text-center text-xs text-slate-500">
-          <p>&copy; {new Date().getFullYear()} {siteConfig.siteName}. All rights reserved.</p>
-          <p className="mt-2">Not affiliated with any service provider. Verify all services independently.</p>
+          <p className="mb-2">&copy; {new Date().getFullYear()} {siteConfig.siteName}. All rights reserved.</p>
+          <p className="mb-4">Not affiliated with any service provider. Verify all services independently.</p>
+          <p className="text-slate-600">Peters Field & Frontier Enterprises, LLC — Rural Services & Infrastructure Support</p>
         </div>
       </div>
     </footer>

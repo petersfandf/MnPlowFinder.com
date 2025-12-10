@@ -1,0 +1,82 @@
+You are updating my existing MN Plow Finder directory site (mnplowfinder.com). 
+
+First, inspect the project structure and determine whether it’s plain HTML/CSS/JS, a static site generator, or React. Whatever stack it is, KEEP the existing structure and styling system, and implement the following changes in the most idiomatic way for this codebase.
+
+GOALS
+1. Add a small company footer line.
+2. Add an “About Us / About the Founder” section or modal and link.
+3. Add a “Partner With Us” page and link.
+4. Add a “Claim this listing / Claim & Feature” email link under each provider profile so I can verify businesses manually.
+
+DETAILS
+
+A. FOOTER UPDATE
+- In the main site footer, add a subtle text line (small font, light gray, no visual clutter):
+  “Peters Field & Frontier Enterprises, LLC — Rural Services & Infrastructure Support”
+- Place it near the bottom of the footer, aligned with existing footer content.
+
+B. “ABOUT US / ABOUT THE FOUNDER” SECTION
+- Add a footer link labeled “About Us” that opens either:
+  - a simple modal, OR
+  - a dedicated “About” section near the bottom of the homepage (whichever fits this codebase best).
+- Content for that section/modal (feel free to polish wording, but keep the facts):
+
+  Title: “About MN Plow Finder”
+  Body:
+  - “MN Plow Finder is built and maintained by Peters Field & Frontier Enterprises, LLC.”
+  - “Founded by Destin Peters, a seasoned engineer with 15 years of experience in advanced product development, the company focuses on practical, boots-on-the-ground solutions for rural communities.”
+  - “MN Plow Finder started as a simple way to help Southeast Minnesota residents find reliable snow removal — but it’s also the first step in a larger rural-service initiative.”
+  - “Future service expansions include rural connectivity support, backup power preparation, and home resilience services.”
+
+  Important:
+  - DO NOT mention specific employers like ‘Hearth & Home Technologies’ anywhere.
+  - Keep tone professional but friendly.
+  - Make sure the modal/section is mobile-friendly.
+
+C. “PARTNER WITH US” PAGE
+- Add a small text link in the footer navigation labeled: “Partner With Us”.
+- Clicking it should go to a simple, static page (for example: `/partner.html` or `/partner` depending on the framework).
+- That page should inherit the same header/footer styling as the rest of the site and include content like:
+
+  Heading: “Partner With Us”
+  Paragraphs (polish wording but keep meaning):
+  - “We collaborate with rural service providers, technology companies, and infrastructure organizations interested in serving Southeast Minnesota.”
+  - “If your company provides connectivity, backup power, environmental management, home infrastructure products, or related services, we welcome conversations about pilot programs and regional partnerships.”
+  - “MN Plow Finder is part of a broader effort by Peters Field & Frontier Enterprises, LLC to support rural resilience and quality of life.”
+
+  - Include a simple contact call-to-action:
+    “To explore partnerships, email us at petersfieldandfrontier@gmail.com.”
+
+D. “CLAIM THIS LISTING / FEATURE THIS BUSINESS” LINK
+- Under each provider profile/card on the directory list, add a small text link or button.
+  - Label: “Claim this listing” (and if there is room, you can add smaller text nearby: “or request Featured placement”).
+- Clicking this should open the user’s email client via a `mailto:` link.
+- The `mailto:` should go to: `petersfieldandfrontier@gmail.com`.
+- The subject line should automatically include the business name. For example:
+  Subject: “MN Plow Finder – Claim Listing: [Business Name]”
+- The email body can be pre-filled with a simple template such as:
+
+  “I would like to claim and/or feature our listing on MN Plow Finder.
+
+  Business Name:
+  Contact Name:
+  Phone:
+  Website:
+  Proof of insurance available: Yes / No
+
+  Additional details:”
+
+- Implement this so that the correct business name is inserted dynamically from whatever data source the cards use (JSON, array, database, etc.).
+- Make sure the new link looks consistent with the existing UI (small, unobtrusive, but clearly clickable).
+
+E. EMAILS & BACK-OF-HOUSE COMMUNICATION
+- Wherever you add contact or partner links, use **petersfieldandfrontier@gmail.com** as the email address (I want to keep continuity through Gmail even if domains change later).
+- Do NOT hard-code any other email unless one already exists in the code and is clearly for end users.
+
+F. GENERAL REQUIREMENTS
+- Don’t break any current styling or layout.
+- Keep everything responsive on mobile.
+- Use existing CSS classes and patterns where possible instead of creating totally new styles.
+- After making changes, ensure there are no console errors and that navigation still works as expected.
+
+Finally, summarize the files you changed and what you changed in each, so I can understand and review the diff easily.

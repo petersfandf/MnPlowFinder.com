@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
+import { Partner } from "@/pages/Partner";
 import { CityPage } from "@/pages/CityPage";
 import { ProviderPage } from "@/pages/ProviderPage";
 
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/partner" component={Partner} />
       <Route path="/provider/:id/:slug" component={ProviderPage} />
       {/* Catch-all for city pages like /lake-city-mn-snow-removal */}
       <Route path="/:slug" component={CityPage} />

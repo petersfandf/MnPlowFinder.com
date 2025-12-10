@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { siteConfig } from "@/config";
 
 export function About() {
   return (
@@ -11,13 +12,18 @@ export function About() {
         
         <div className="prose prose-slate lg:prose-lg bg-white p-8 rounded-xl shadow-sm border border-slate-200">
           <p className="lead text-xl text-slate-600 mb-6">
-            MN Plow Finder is an independent directory dedicated to connecting residents of Southeast Minnesota with local snow removal professionals.
+            MN Plow Finder is built and maintained by Peters Field & Frontier Enterprises, LLC.
           </p>
           
-          <h3>Our Mission</h3>
+          <h3>About the Founder</h3>
           <p>
-            Living in Minnesota means dealing with snow—lots of it. Finding a reliable plow service shouldn't be harder than shoveling the driveway itself. 
-            We created this directory to put all local providers in one easy-to-search place.
+            Founded by Destin Peters, a seasoned engineer with 15 years of experience in advanced product development, the company focuses on practical, boots-on-the-ground solutions for rural communities.
+          </p>
+          <p>
+            MN Plow Finder started as a simple way to help Southeast Minnesota residents find reliable snow removal — but it’s also the first step in a larger rural-service initiative.
+          </p>
+          <p>
+            Future service expansions include rural connectivity support, backup power preparation, and home resilience services.
           </p>
 
           <h3>For Residents</h3>
@@ -37,8 +43,8 @@ export function About() {
             <p className="text-slate-700 mb-4">
               Have questions, feedback, or need to update a listing?
             </p>
-            <a href="mailto:contact@mnplowfinder.com" className="text-blue-600 font-medium hover:underline">
-              contact@mnplowfinder.com
+            <a href={`mailto:${siteConfig.adminEmail}`} className="text-blue-600 font-medium hover:underline">
+              {siteConfig.adminEmail}
             </a>
           </div>
         </div>

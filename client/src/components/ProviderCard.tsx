@@ -108,17 +108,27 @@ export function ProviderCard({ provider }: ProviderCardProps) {
           )}
         </div>
       </CardContent>
-      <CardFooter className="pt-3 border-t bg-slate-50/50 flex gap-3">
-        <Button asChild className="flex-1 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-blue-600">
-          <Link href={`/provider/${provider.id}/${slug}`}>
-            View Details <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-        <Button asChild className="flex-1 bg-primary hover:bg-primary/90">
-          <a href={`tel:${provider.phone}`}>
-            <Phone className="mr-2 h-4 w-4" /> Call
+      <CardFooter className="pt-3 border-t bg-slate-50/50 flex flex-col gap-2">
+        <div className="flex gap-3 w-full">
+          <Button asChild className="flex-1 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-blue-600">
+            <Link href={`/provider/${provider.id}/${slug}`}>
+              View Details <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+          <Button asChild className="flex-1 bg-primary hover:bg-primary/90">
+            <a href={`tel:${provider.phone}`}>
+              <Phone className="mr-2 h-4 w-4" /> Call
+            </a>
+          </Button>
+        </div>
+        <div className="w-full text-center">
+          <a 
+            href={`mailto:petersfieldandfrontier@gmail.com?subject=MN Plow Finder – Claim Listing: ${provider.name}&body=I would like to claim and/or feature our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0APhone: ${provider.phone}%0D%0AWebsite: ${provider.website}%0D%0AProof of insurance available: Yes / No%0D%0A%0D%0AAdditional details:`}
+            className="text-xs text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
+          >
+            Claim this listing <span className="text-slate-300">|</span> Request Featured
           </a>
-        </Button>
+        </div>
       </CardFooter>
     </Card>
   );

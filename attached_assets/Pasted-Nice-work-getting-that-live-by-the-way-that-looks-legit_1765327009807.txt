@@ -1,0 +1,106 @@
+Nice work getting that live, by the way—that looks legit.
+
+Here’s a copy-paste prompt you can drop straight into Replit’s “Make, test, iterate…” box to have it modify your existing project.
+
+---
+
+**Prompt for Replit AI:**
+
+You are editing my existing MN Plow Finder project in this Replit.
+Tech stack: whatever is already here (don’t change frameworks or build setup). Just update the current code.
+
+Overall goals:
+
+* Keep the current visual style, layout, and responsiveness.
+* Make small, high-impact changes that improve credibility with:
+
+  * rural funding / grant orgs
+  * Starlink / connectivity partners
+  * OEMs like Generac or electric-fireplace manufacturers
+  * big-box “service partner” reviewers
+
+### 1. Footer: add a small credibility line
+
+In the main site footer, add **one short line** of text (keep it subtle, same visual style as existing footer text):
+
+> “Peters Field & Frontier Enterprises, LLC — Rural Services & Infrastructure Support”
+
+Place it near the existing copyright or site description, but don’t make it visually dominant.
+
+### 2. “About Us / About the Founder” section or modal
+
+Add a small **“About Us”** link in the footer (or in the nav if that’s easier), which opens either:
+
+* a modal, OR
+* a simple dedicated “About” section/page that matches the current design
+
+Use this copy (you can lightly format into headings and short paragraphs, but do not rewrite the meaning):
+
+**Title:** About the Founder
+**Body text:**
+
+> MN Plow Finder is operated by Peters Field & Frontier Enterprises, LLC and was founded by Destin Peters, a mechanical design engineer with 15 years of experience in advanced product development and real-world problem solving.
+>
+> Destin’s work is focused on practical, field-tested solutions that make rural life more resilient—whether that means keeping driveways open in a blizzard, improving connectivity, or preparing homes for power outages.
+>
+> MN Plow Finder began as a simple way to connect residents in Southeast Minnesota with reliable local snow removal providers. It is also part of a broader rural-service initiative to support:
+> • local trades and small businesses
+> • rural homeowners and farms
+> • communities that are often overlooked by big national service networks
+>
+> Future service expansions are planned in areas such as rural connectivity support, backup power preparation, and home resilience services.
+
+Important constraints:
+
+* Do **not** mention any specific past employer names.
+* Keep the tone practical and grounded, not hype-y.
+* Make sure the “About Us” link works on mobile.
+
+### 3. “Partner With Us” page
+
+Add a **“Partner With Us”** link (small, not dominant) in either:
+
+* the main navigation, or
+* the footer (next to “About Us”)
+
+Clicking it should go to a very simple page that inherits the existing layout styles.
+
+Use this copy (again, you may style with headings and short paragraphs, but don’t change the meaning):
+
+**Title:** Partner With Us
+
+**Intro paragraph:**
+
+> MN Plow Finder is a regional directory focused on rural services in Southeast Minnesota. We connect local residents with trusted providers and are building a foundation for broader rural infrastructure support.
+
+**Section: Who We Collaborate With**
+
+> We welcome conversations with:
+> • rural service providers and contractors
+> • connectivity and communications companies
+> • backup power and energy-resilience manufacturers
+> • environmental management and land-stewardship organizations
+> • home and property infrastructure providers
+>
+> If your company provides connectivity, backup power, environmental management, or home-infrastructure products and services, we’re interested in discussing pilot programs and regional partnerships.
+
+**Section: Get in Touch**
+
+> To explore partnership opportunities in Southeast Minnesota, please contact us by email using the address already configured for this site.
+>
+> We review each inquiry individually and prioritize collaborations that strengthen rural communities and provide tangible value to residents.
+
+Implementation details:
+
+* Reuse whatever email/contact method is already configured in the project (keep the existing Gmail-based back-end wiring so that if domains change, forms and notifications still work). Publicly, display only the branded or appropriate contact email that currently appears on the site.
+* Ensure all new links (“About Us”, “Partner With Us”) are accessible and visible but not visually overwhelming.
+* Maintain responsive design for all new sections and pages.
+
+After you make these changes:
+
+* Update any internal routing if we’re using a SPA/router so that About and Partner pages work on direct URL visits.
+* Run the project to confirm there are no build errors and that all new links function correctly.
+
+---
+
+If you want, I can also help you tune the styling language (e.g., “make the About modal use the same card style as provider cards”) so Replit’s AI nails the look on the first pass.
