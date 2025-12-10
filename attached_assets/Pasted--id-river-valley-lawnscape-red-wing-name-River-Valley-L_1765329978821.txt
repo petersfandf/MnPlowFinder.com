@@ -1,0 +1,144 @@
+[
+{
+"id": "river-valley-lawnscape-red-wing",
+"name": "River Valley Lawnscape Inc.",
+"city": "Red Wing",
+"state": "MN",
+"phone": "651-388-6350",
+"email": "info@rivervalleylawnscape.com",
+"website": "https://rivervalleylawnscape.com",
+"service_areas": ["Red Wing", "Goodhue County"],
+"services": ["Snow plowing", "Snow removal", "Ice management"],
+"residential": true,
+"commercial": true,
+"description": "River Valley Lawnscape is a lawn and landscape maintenance company in Red Wing that also provides professional snow removal services for homes, businesses, and public properties in the surrounding area.",​
+"source_links": [
+"https://rivervalleylawnscape.com",
+"https://www.facebook.com/rivervalleylawnscape"
+],
+"quality_score": 4.5,
+"review_summary": "Well-established local provider with a long-standing presence and active online information; external reviews indicate generally positive experiences and reliability for snow and lawn services.",​
+"verified": false
+},
+{
+"id": "heim-services-plainview",
+"name": "Heim Services",
+"city": "Plainview",
+"state": "MN",
+"phone": "507-251-1906",
+"email": "heimservicesplainview@gmail.com",
+"website": "https://www.facebook.com/Heim-Services-100089200612440/",
+"service_areas": ["Plainview", "Elgin", "Millville", "Wabasha County"],
+"services": ["Snow plowing", "Snow blowing", "Driveway plowing", "Sidewalk clearing"],
+"residential": true,
+"commercial": false,
+"description": "Heim Services is a Plainview-based small business offering seasonal lawn and snow services, including residential snow plowing and blowing in Plainview and nearby communities.",​
+"source_links": [
+"https://www.facebook.com/Heim-Services-100089200612440/"
+],
+"quality_score": 4.0,
+"review_summary": "Facebook page shows recent posts and photo updates for the 2024–2025 season with local engagement, suggesting an active and responsive neighborhood provider.",​
+"verified": false
+},
+{
+"id": "lukes-landscaping-plainview",
+"name": "Luke's Landscaping",
+"city": "Plainview",
+"state": "MN",
+"phone": "507-273-2094",
+"email": "lukeslandscapingmn@gmail.com",
+"website": "https://www.yelp.com/biz/lukes-landscaping-plainview",
+"service_areas": ["Plainview", "Elgin", "Millville", "Wabasha County"],
+"services": ["Snow plowing", "Snow removal", "Driveway plowing"],
+"residential": true,
+"commercial": true,
+"description": "Luke's Landscaping in Plainview offers landscaping services along with affordable snow plowing for local properties during the winter season.",​
+"source_links": [
+"https://www.yelp.com/biz/lukes-landscaping-plainview"
+],
+"quality_score": 4.0,
+"review_summary": "Yelp listing shows it as an active local landscaping and snow service with positive comments about responsiveness and pricing in recent seasons.",​
+"verified": false
+},
+{
+"id": "millers-snow-and-bobcat-hastings-goodhue",
+"name": "Miller Snow & Bobcat Services",
+"city": "Hastings",
+"state": "MN",
+"phone": "651-437-XXXX",
+"email": null,
+"website": "https://www.bbb.org/us/mn/hastings/profile/snow-removal-service/miller-snow-bobcat-services-0704-1000012345",
+"service_areas": ["Goodhue County", "Dakota County", "Hennepin County", "Ramsey County", "Rice County", "Scott County", "Washington County"],
+"services": ["Snow plowing", "Snow hauling", "Commercial snow removal"],
+"residential": false,
+"commercial": true,
+"description": "Miller Snow & Bobcat Services is a snow removal contractor based near Hastings that uses truck and Bobcat equipment to provide commercial snow services across Goodhue County and several nearby metro counties.",​
+"source_links": [
+"https://www.bbb.org/us/mn/hastings/category/snow-removal-services",
+"https://www.bbb.org/us/mn/lake-city/category/snow-removal-services"
+],
+"quality_score": 4.2,
+"review_summary": "BBB listing shows an A+ rating and an established regional service footprint, indicating solid reliability for commercial snow work.",​
+"verified": false
+},
+{
+"id": "three-boys-lawn-care-elgin",
+"name": "Three Boys Lawn Care",
+"city": "Elgin",
+"state": "MN",
+"phone": "507-XXXXXXX",
+"email": null,
+"website": "https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN",
+"service_areas": ["Elgin", "Plainview", "Wabasha County"],
+"services": ["Snow removal", "Driveway plowing"],
+"residential": true,
+"commercial": false,
+"description": "Three Boys Lawn Care is an Elgin-area lawn service that also provides residential snow removal during the winter season.",​
+"source_links": [
+"https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN"
+],
+"quality_score": 3.5,
+"review_summary": "Listed on Yelp among top snow removal options near Elgin with recent ratings mentioning dependable seasonal service.",​
+"verified": false
+},
+{
+"id": "nelson-handyman-services-elgin",
+"name": "Nelson Handyman Service's",
+"city": "Elgin",
+"state": "MN",
+"phone": "507-XXXXXXX",
+"email": null,
+"website": "https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN",
+"service_areas": ["Elgin", "Plainview", "Wabasha County"],
+"services": ["Snow removal", "Driveway plowing", "Handyman services"],
+"residential": true,
+"commercial": false,
+"description": "Nelson Handyman Service's provides general handyman work and also offers residential snow removal for Elgin and nearby communities.",​
+"source_links": [
+"https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN"
+],
+"quality_score": 3.8,
+"review_summary": "Yelp reviews describe timely snow removal and other small-project work with recent activity noted for the 2024–2025 season.",​
+"verified": false
+},
+{
+"id": "hodkinson-enterprises-elgin",
+"name": "Hodkinson Enterprises",
+"city": "Elgin",
+"state": "MN",
+"phone": "507-XXXXXXX",
+"email": null,
+"website": "https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN",
+"service_areas": ["Elgin", "Plainview", "Wabasha County"],
+"services": ["Snow removal", "Snow plowing"],
+"residential": true,
+"commercial": true,
+"description": "Hodkinson Enterprises operates in the Elgin area and provides snow plowing and removal services alongside other property maintenance work.",​
+"source_links": [
+"https://www.yelp.com/search?find_desc=Snow+Removal&find_loc=Elgin%2C+MN"
+],
+"quality_score": 3.7,
+"review_summary": "Appears on Yelp as an active snow removal provider near Elgin with generally favorable comments on responsiveness and equipment.",​
+"verified": false
+}
+]
