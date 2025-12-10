@@ -1,0 +1,66 @@
+I’m building mnplowfinder.com, a directory for snow removal providers in Southeast Minnesota.
+The site is static (hosted on Netlify) and currently has:
+– A hero section with search
+– Cards for each provider
+– A “Own a snow removal business?” form / CTA
+– A footer
+
+I now have two email aliases I want to wire into the site:
+
+info@mnplowfinder.com – for residents/general contact.
+
+providers@mnplowfinder.com – for snow providers, business claims, and OEM/technology partners.
+
+Please update the code as follows:
+
+Footer contact
+
+In the footer, add a small “Contact” line that uses mailto:info@mnplowfinder.com.
+
+Example text: “General inquiries: info@mnplowfinder.com
+”.
+
+“Own a snow removal business?” CTA
+
+The form/button in this section should send an email to providers@mnplowfinder.com.
+
+If it uses a mailto: link, pre-fill the subject line to something like:
+subject=New provider interested in listing on MN Plow Finder.
+
+Add a ‘Claim this business’ link on each provider card
+
+Under each provider profile card (near “Call” / “View Details”), add a small text link:
+“Claim or update this listing”.
+
+This should use a mailto: link to providers@mnplowfinder.com with a pre-filled subject and body, for example:
+
+Subject: Claim or update listing: [Business Name]
+
+Body template including placeholders for the user to fill in (business name, phone, website, proof of insurance, etc.).
+
+“Partner With Us” page
+
+Create a simple /partner or /partner-with-us page (or section) with copy describing collaboration with:
+
+Rural service providers
+
+Technology/infra companies (connectivity, backup power, etc.)
+
+On this page, use providers@mnplowfinder.com as the main contact, with a clear mailto: link and a button like “Email us at providers@mnplowfinder.com
+”.
+
+General ‘About’ / ‘About the Founder’
+
+If there is an “About” modal or section, include both emails:
+
+Residents/general: info@mnplowfinder.com
+
+Providers/partners: providers@mnplowfinder.com
+
+Make sure any existing placeholder emails on the site are replaced with one of these two, based on whether the context is:
+
+Resident/general → info@mnplowfinder.com
+
+Provider/partner/OEM → providers@mnplowfinder.com
+
+Please implement these changes directly in the HTML/JS/React files in this Replit project and show me which files/sections were edited.

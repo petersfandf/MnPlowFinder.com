@@ -28,8 +28,8 @@ export function Partner() {
             <p className="text-slate-700 mb-4">
               To explore partnerships, please email us directly.
             </p>
-            <a href={`mailto:${siteConfig.adminEmail}?subject=Partnership Inquiry`} className="text-blue-600 font-medium hover:underline">
-              {siteConfig.adminEmail}
+            <a href={`mailto:${siteConfig.providersEmail}?subject=Partnership Inquiry`} className="inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-colors">
+              Email us at {siteConfig.providersEmail}
             </a>
           </div>
         </div>

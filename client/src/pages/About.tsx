@@ -40,12 +40,20 @@ export function About() {
 
           <div className="bg-blue-50 p-6 rounded-lg mt-8 not-prose border-l-4 border-blue-500">
             <h4 className="font-bold text-slate-900 mb-2">Contact Us</h4>
-            <p className="text-slate-700 mb-4">
-              Have questions, feedback, or need to update a listing?
-            </p>
-            <a href={`mailto:${siteConfig.adminEmail}`} className="text-blue-600 font-medium hover:underline">
-              {siteConfig.adminEmail}
-            </a>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm font-semibold text-slate-900 mb-1">General Inquiries & Residents</p>
+                <a href={`mailto:${siteConfig.infoEmail}`} className="text-blue-600 hover:underline">
+                  {siteConfig.infoEmail}
+                </a>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-900 mb-1">Providers & Partners</p>
+                <a href={`mailto:${siteConfig.providersEmail}`} className="text-blue-600 hover:underline">
+                  {siteConfig.providersEmail}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </main>

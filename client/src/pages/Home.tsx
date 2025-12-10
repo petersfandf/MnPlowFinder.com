@@ -198,7 +198,7 @@ export function Home() {
             className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200"
             onSubmit={(e) => {
               e.preventDefault();
-              window.location.href = `mailto:${siteConfig.adminEmail}?subject=${siteConfig.addBusinessSubject}&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
+              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
             }}
           >
             <div>

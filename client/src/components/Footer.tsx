@@ -35,11 +35,19 @@ export function Footer() {
               <li><Link href="/partner"><a className="hover:text-white transition-colors">Partner With Us</a></Link></li>
             </ul>
             <div className="mt-8">
-              <h3 className="font-bold text-white mb-4">For Providers</h3>
+              <h3 className="font-bold text-white mb-4">Contact</h3>
+              <p className="text-sm text-slate-400 mb-2">
+                General inquiries:
+              </p>
+              <a href={`mailto:${siteConfig.infoEmail}`} className="text-sm text-blue-400 hover:text-blue-300 transition-colors block mb-4">
+                {siteConfig.infoEmail}
+              </a>
+              
+              <h3 className="font-bold text-white mb-4 mt-6">For Providers</h3>
               <p className="text-sm text-slate-400 mb-4">
                 Are you a snow removal professional in SE MN? Get listed in our directory for free.
               </p>
-              <a href={`mailto:${siteConfig.adminEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
+              <a href={`mailto:${siteConfig.providersEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
                 Request Listing
               </a>
             </div>

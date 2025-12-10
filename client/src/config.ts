@@ -1,9 +1,11 @@
 export const siteConfig = {
-  // The email address where "Add Business" requests and "Contact Us" emails are sent
-  adminEmail: "destin@petersfieldfrontier.com",
+  // Email addresses
+  adminEmail: "providers@mnplowfinder.com", // For providers/partners (backwards compatibility for existing code using adminEmail)
+  infoEmail: "info@mnplowfinder.com", // For residents/general
+  providersEmail: "providers@mnplowfinder.com", // For providers/partners (explicit)
   
   // The subject line for the "Add Business" email
-  addBusinessSubject: "New Provider Listing Request",
+  addBusinessSubject: "New provider interested in listing on MN Plow Finder",
   
   // General site info
   siteName: "MN Plow Finder",
