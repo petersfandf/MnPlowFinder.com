@@ -7,12 +7,13 @@ import providersData from "@/data/providers.json";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List } from "lucide-react";
+import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List, ChevronDown } from "lucide-react";
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
 import { siteConfig } from "@/config";
 
 export function Home() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("all");
   const [selectedService, setSelectedService] = useState("all");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
@@ -106,13 +107,29 @@ export function Home() {
       <main className="container mx-auto px-4 py-12 flex-grow">
         
         {/* Filters Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm sticky top-20 z-40">
-          <div className="flex items-center gap-2 text-slate-700 font-medium">
-            <Filter className="h-5 w-5 text-blue-500" />
-            <span>Filters:</span>
+        <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm sticky top-16 z-40 mb-8">
+          <div className="flex justify-between items-center">
+             <div 
+               className="flex items-center gap-2 text-slate-700 font-medium cursor-pointer sm:cursor-default select-none"
+               onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+             >
+                <Filter className="h-5 w-5 text-blue-500" />
+                <span>Filters</span>
+                <span className="sm:hidden text-xs text-muted-foreground ml-2">
+                  ({filteredProviders.length} results)
+                </span>
+                <ChevronDown className={`h-4 w-4 sm:hidden transition-transform duration-200 ${isFiltersOpen ? "rotate-180" : ""}`} />
+             </div>
+             
+             {/* Desktop count (hidden on mobile to save space if collapsed) */}
+             <div className="hidden sm:block text-sm text-slate-500">
+                Showing <strong>{filteredProviders.length}</strong> providers
+             </div>
           </div>
-          
-          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+
+          {/* Collapsible Content */}
+          <div className={`mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 ${isFiltersOpen ? "block" : "hidden sm:flex"}`}>
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
              <Select value={selectedService} onValueChange={setSelectedService}>
                 <SelectTrigger className="w-full sm:w-[200px] bg-white border-slate-200">
                   <SelectValue placeholder="Service Type" />
@@ -127,7 +144,7 @@ export function Home() {
               
               <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
               
-              <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200">
+              <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 w-full sm:w-auto justify-center sm:justify-start">
                 <button 
                   onClick={() => setViewMode("list")}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === "list" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
@@ -143,9 +160,10 @@ export function Home() {
               </div>
           </div>
           
-          <div className="text-sm text-slate-500 w-full sm:w-auto text-right">
+          <div className="text-sm text-slate-500 w-full sm:w-auto text-right sm:hidden">
             Showing <strong>{filteredProviders.length}</strong> providers
           </div>
+         </div>
         </div>
 
         {/* Results Grid / Map */}

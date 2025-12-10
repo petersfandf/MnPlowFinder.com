@@ -22,8 +22,8 @@
     "id": 13,
     "name": "Glander Excavating",
     "city": "Lake City",
-    "lat": 44.47,
-    "lng": -92.24,
+    "lat": 44.442,
+    "lng": -92.275,
     "serviceAreas": ["Lake City", "Frontenac"],
     "services": [
       "Driveway plowing",
@@ -154,6 +154,25 @@
     "description": "We have openings for Snow Removal! Don't take the risk.. We do it for you! Lawn Care, Landscaping, Property Clean Up.",
     "rating": 5.0,
     "reviewCount": 2,
+    "featured": false
+  },
+  {
+    "id": 19,
+    "name": "Shawn's Lawn Care",
+    "city": "Lake City",
+    "lat": 44.452,
+    "lng": -92.262,
+    "serviceAreas": ["Lake City"],
+    "services": ["Snow removal", "Lawn care", "Thatching", "Fertilizing"],
+    "residential": true,
+    "commercial": false,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phone": "651-235-0908",
+    "website": "",
+    "description": "Servicing the Lake City Area. Lawn Mowing, Thatching, Fertilizing, Shrub Trimming, Snow Removal.",
+    "rating": 0,
+    "reviewCount": 0,
     "featured": false
   }
 ]
