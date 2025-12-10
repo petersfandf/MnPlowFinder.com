@@ -123,7 +123,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
         </div>
         <div className="w-full text-center">
           <a 
-            href={`mailto:petersfieldandfrontier@gmail.com?subject=MN Plow Finder – Claim Listing: ${provider.name}&body=I would like to claim and/or feature our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0APhone: ${provider.phone}%0D%0AWebsite: ${provider.website}%0D%0AProof of insurance available: Yes / No%0D%0A%0D%0AAdditional details:`}
+            href={`mailto:destin@petersfieldfrontier.com?subject=MN Plow Finder – Claim Listing: ${provider.name}&body=I would like to claim and/or feature our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0APhone: ${provider.phone}%0D%0AWebsite: ${provider.website}%0D%0AProof of insurance available: Yes / No%0D%0A%0D%0AAdditional details:`}
             className="text-xs text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
           >
             Claim this listing <span className="text-slate-300">|</span> Request Featured
