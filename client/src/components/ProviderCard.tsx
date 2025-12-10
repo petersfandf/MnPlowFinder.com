@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Globe, MapPin, Check, Clock, ArrowRight, Star } from "lucide-react";
+import { Phone, Globe, MapPin, Check, Clock, ArrowRight, Star, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 
 export interface Provider {
@@ -33,15 +33,20 @@ export function ProviderCard({ provider }: ProviderCardProps) {
   const slug = provider.name.toLowerCase().replace(/\s+/g, '-');
   
   return (
-    <Card className={`flex flex-col h-full hover:shadow-md transition-shadow duration-200 ${provider.featured ? 'border-yellow-400 shadow-sm ring-1 ring-yellow-400/50' : 'border-slate-200'}`}>
+    <Card className={`flex flex-col h-full hover:shadow-md transition-shadow duration-200 ${provider.featured ? 'border-blue-400 shadow-sm ring-1 ring-blue-400/30' : 'border-slate-200'}`}>
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               {provider.featured && (
-                <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 border-yellow-200 px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
-                  Featured
-                </Badge>
+                <>
+                  <Badge className="bg-blue-600 hover:bg-blue-700 border-blue-600 text-white px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider flex items-center gap-1">
+                    Featured
+                  </Badge>
+                  <div className="flex items-center gap-1 text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full border border-green-200">
+                    <ShieldCheck className="h-3 w-3" /> Verified & Insured
+                  </div>
+                </>
               )}
             </div>
             <Link href={`/provider/${provider.id}/${slug}`}>
@@ -54,7 +59,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                 <MapPin className="h-3.5 w-3.5" />
                 {provider.city} • Serving: {provider.serviceAreas.join(", ")}
               </div>
-              {provider.rating && (
+              {provider.featured && provider.rating && (
                 <div className="flex items-center gap-1">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (

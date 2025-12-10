@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import providersData from "@/data/providers.json";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Phone, Globe, MapPin, Check, Clock, Truck, Shield, Star } from "lucide-react";
+import { ArrowLeft, Phone, Globe, MapPin, Check, Clock, Truck, Shield, Star, ShieldCheck } from "lucide-react";
 import { Provider } from "@/components/ProviderCard";
 
 export function ProviderPage() {
@@ -40,8 +40,17 @@ export function ProviderPage() {
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-8">
             {/* Header Card */}
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+            <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 relative overflow-hidden">
+              {provider.featured && (
+                <div className="absolute top-0 right-0 p-4">
+                  <div className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1.5 rounded-full border border-green-200 shadow-sm">
+                    <ShieldCheck className="h-4 w-4" />
+                    <span className="text-xs font-bold uppercase tracking-wide">Verified & Insured</span>
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6 pt-4">
                 <div>
                   <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">{provider.name}</h1>
                   <div className="flex flex-col gap-2">
@@ -49,7 +58,7 @@ export function ProviderPage() {
                       <MapPin className="h-4 w-4" />
                       <span className="text-lg">Based in <span className="font-semibold text-slate-700">{provider.city}</span></span>
                     </div>
-                    {provider.rating && (
+                    {provider.featured && provider.rating && (
                       <div className="flex items-center gap-2 mt-1">
                         <div className="flex">
                           {[...Array(5)].map((_, i) => (
@@ -60,7 +69,7 @@ export function ProviderPage() {
                           ))}
                         </div>
                         <span className="font-bold text-slate-900">{provider.rating}</span>
-                        <span className="text-slate-500 underline decoration-dotted cursor-help" title="Mock data for demo">
+                        <span className="text-slate-500 underline decoration-dotted cursor-help" title="Based on Google Reviews">
                           ({provider.reviewCount} Google Reviews)
                         </span>
                       </div>
@@ -68,7 +77,7 @@ export function ProviderPage() {
                   </div>
                 </div>
                 {provider.twentyFourSeven && (
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-200 border-green-200 px-3 py-1 text-sm">
+                  <Badge className="bg-green-100 text-green-800 hover:bg-green-200 border-green-200 px-3 py-1 text-sm mt-2 md:mt-0">
                     <Clock className="h-3 w-3 mr-1" /> 24/7 Service Available
                   </Badge>
                 )}
