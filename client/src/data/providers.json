@@ -1,24 +1,5 @@
 [
   {
-    "id": 16,
-    "name": "Clear Track Snow Removal",
-    "city": "Lake City",
-    "lat": 44.458,
-    "lng": -92.258,
-    "serviceAreas": ["Lake City"],
-    "services": ["Snow plowing", "Snow stacking", "Snow hauling", "De-icing"],
-    "residential": true,
-    "commercial": true,
-    "ruralDriveways": false,
-    "twentyFourSeven": true,
-    "phone": "(820) 205-0465",
-    "website": "https://cleartracksnowremoval.com/mn/lake-city/",
-    "description": "Residential & commercial snow removal. 45-min response time. Serving 200+ properties in Lake City.",
-    "rating": 5.0,
-    "reviewCount": 1,
-    "featured": true
-  },
-  {
     "id": 6,
     "name": "River Valley Lawnscape",
     "city": "Red Wing",
