@@ -16,7 +16,18 @@ export function Home() {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("all");
   const [selectedService, setSelectedService] = useState("all");
+  const [sortBy, setSortBy] = useState<"recommended" | "name" | "rating">("recommended");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+
+  // Helper for availability sort weight
+  const getAvailabilityWeight = (status?: string) => {
+    switch (status) {
+      case 'accepting': return 3;
+      case 'limited': return 2;
+      case 'waitlist': return 0;
+      default: return 1; // closed or undefined
+    }
+  };
 
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
@@ -42,12 +53,30 @@ export function Home() {
 
       return matchesSearch && matchesCity && matchesService;
     }).sort((a, b) => {
-      // Sort featured providers to the top
+      if (sortBy === "name") {
+        return a.name.localeCompare(b.name);
+      }
+      
+      if (sortBy === "rating") {
+        const ratingA = a.rating || 0;
+        const ratingB = b.rating || 0;
+        if (ratingB !== ratingA) return ratingB - ratingA;
+        return (b.reviewCount || 0) - (a.reviewCount || 0);
+      }
+
+      // Default "recommended" sort: Availability > Featured > Name
+      const weightA = getAvailabilityWeight(a.availabilityStatus);
+      const weightB = getAvailabilityWeight(b.availabilityStatus);
+      
+      if (weightA !== weightB) return weightB - weightA;
+      
+      // Sort featured providers to the top within availability groups
       if (a.featured && !b.featured) return -1;
       if (!a.featured && b.featured) return 1;
-      return 0;
+      
+      return a.name.localeCompare(b.name);
     });
-  }, [searchTerm, selectedCity, selectedService]);
+  }, [searchTerm, selectedCity, selectedService, sortBy]);
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -141,6 +170,21 @@ export function Home() {
                   ))}
                 </SelectContent>
               </Select>
+              
+              <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+
+              <div className="w-full sm:w-[180px]">
+                <Select value={sortBy} onValueChange={(val: any) => setSortBy(val)}>
+                  <SelectTrigger className="w-full bg-white border-slate-200">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="recommended">Recommended</SelectItem>
+                    <SelectItem value="name">Name (A-Z)</SelectItem>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
               <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
               
