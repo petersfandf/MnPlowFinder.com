@@ -325,34 +325,38 @@ export function Home() {
 
               const jsonString = JSON.stringify(providerJson, null, 2);
               
-              // Human readable summary
-              const summary = `
-New Business Submission:
-------------------------
-Business Name: ${businessName}
-Phone: ${phone}
-Website: ${website || "N/A"}
-Service Cities: ${cityInput}
-Availability: ${availability}
-Insured: ${insured ? "Yes" : "No"}
-
-Capabilities:
-- Residential: ${residential ? "Yes" : "No"}
-- Commercial: ${commercial ? "Yes" : "No"}
-- 24/7 Service: ${twentyFourSeven ? "Yes" : "No"}
-- Rural Driveways: ${ruralDriveways ? "Yes" : "No"}
-
-Services:
-${servicesList.map(s => `- ${s}`).join('\n')}
-
-Notes:
-${notes || "N/A"}
-              `.trim();
+              // Human readable summary - using \r\n for email client compatibility
+              const summary = [
+                "New Business Submission:",
+                "------------------------",
+                `Business Name: ${businessName}`,
+                `Phone: ${phone}`,
+                `Website: ${website || "N/A"}`,
+                `Service Cities: ${cityInput}`,
+                `Availability: ${availability}`,
+                `Insured: ${insured ? "Yes" : "No"}`,
+                "",
+                "Capabilities:",
+                `- Residential: ${residential ? "Yes" : "No"}`,
+                `- Commercial: ${commercial ? "Yes" : "No"}`,
+                `- 24/7 Service: ${twentyFourSeven ? "Yes" : "No"}`,
+                `- Rural Driveways: ${ruralDriveways ? "Yes" : "No"}`,
+                "",
+                "Services:",
+                ...servicesList.map(s => `- ${s}`),
+                "",
+                "Notes:",
+                notes || "N/A",
+                "",
+                "------------------------",
+                "JSON Data for Admin:"
+              ].join('\r\n');
               
-              // Create body with JSON block
-              const body = `${summary}%0D%0A%0D%0A------------------------%0D%0AJSON Data for Admin:%0D%0A${encodeURIComponent(jsonString)}`;
+              // Combine summary and JSON, then encode the whole thing
+              const fullBody = `${summary}\r\n${jsonString}`;
+              const encodedBody = encodeURIComponent(fullBody);
               
-              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}: ${businessName}&body=${body}`;
+              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}: ${businessName}&body=${encodedBody}`;
             }}
           >
             <div className="space-y-4">
