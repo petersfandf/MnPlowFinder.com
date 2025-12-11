@@ -16,7 +16,8 @@
     "description": "Serves Goodhue & Wabasha counties; 30+ years in business. Professional snow & ice management.",
     "rating": 4.4,
     "reviewCount": 22,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 13,
@@ -40,7 +41,8 @@
     "description": "Experienced excavating contractor offering reliable snow removal services.",
     "rating": 5.0,
     "reviewCount": 2,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 17,
@@ -59,7 +61,8 @@
     "description": "Specializing in rooftop snow removal and ice dam prevention. Protect your home this winter.",
     "rating": 4.8,
     "reviewCount": 12,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 15,
@@ -78,7 +81,8 @@
     "description": "Our service is always in season! Snow plowing and landscaping services.",
     "rating": 4.5,
     "reviewCount": 10,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 18,
@@ -97,7 +101,8 @@
     "description": "Professional lawn care and snow removal services in the Red Wing area.",
     "rating": 0,
     "reviewCount": 0,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 11,
@@ -116,7 +121,8 @@
     "description": "Local lawn care and snow removal services based in Lake City. Serving residential properties.",
     "rating": 4.2,
     "reviewCount": 5,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 12,
@@ -135,7 +141,8 @@
     "description": "Outdoor solutions and services including lawn care and snow removal. Located on County 5 Blvd.",
     "rating": 0,
     "reviewCount": 0,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 14,
@@ -154,7 +161,8 @@
     "description": "We have openings for Snow Removal! Don't take the risk.. We do it for you! Lawn Care, Landscaping, Property Clean Up.",
     "rating": 5.0,
     "reviewCount": 2,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 19,
@@ -173,7 +181,8 @@
     "description": "Servicing the Lake City Area. Lawn Mowing, Thatching, Fertilizing, Shrub Trimming, Snow Removal.",
     "rating": 0,
     "reviewCount": 0,
-    "featured": false
+    "featured": false,
+    "availabilityStatus": "unknown"
   },
   {
     "id": 100,
@@ -193,6 +202,7 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
+    "availabilityStatus": "unknown",
     "sources": [
       "https://www.facebook.com/NorthernEliteSeasonalServicesLLC/"
     ]
@@ -215,6 +225,7 @@
     "rating": 0,
     "reviewCount": 6,
     "featured": false,
+    "availabilityStatus": "unknown",
     "sources": [
       "https://www.facebook.com/bwopropertyservices"
     ]
@@ -237,6 +248,7 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
+    "availabilityStatus": "unknown",
     "sources": [
       "https://www.facebook.com/tim.reincke"
     ]
@@ -259,6 +271,7 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
+    "availabilityStatus": "unknown",
     "sources": [
       "https://www.facebook.com/secondnaturelandscaping"
     ]

@@ -55,7 +55,8 @@ export function Home() {
       case 'accepting': return 3;
       case 'limited': return 2;
       case 'waitlist': return 0;
-      default: return 1; // closed or undefined
+      case 'closed': return -1;
+      default: return 1; // unknown
     }
   };
 

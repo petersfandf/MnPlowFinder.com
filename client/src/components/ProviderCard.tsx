@@ -23,7 +23,7 @@ export interface Provider {
   rating?: number;
   reviewCount?: number;
   featured?: boolean;
-  availabilityStatus?: 'closed' | 'accepting' | 'limited' | 'waitlist';
+  availabilityStatus?: 'closed' | 'accepting' | 'limited' | 'waitlist' | 'unknown';
 }
 
 interface ProviderCardProps {
