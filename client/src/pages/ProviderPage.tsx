@@ -1,5 +1,5 @@
 import { useRoute, Link } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import providersData from "@/data/providers.json";
@@ -13,6 +13,70 @@ export function ProviderPage() {
   const id = parseInt(params?.id || "0");
   
   const provider = providersData.find(p => p.id === id) as Provider | undefined;
+
+  // State for press-and-hold functionality
+  const [showPhone, setShowPhone] = useState(false);
+  const [isPressing, setIsPressing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const startTimeRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  const PRESS_DURATION = 800; // ms to hold
+
+  const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
+    // Prevent default to stop scrolling/selecting on mobile while pressing
+    // e.preventDefault(); 
+    if (showPhone) return;
+    
+    setIsPressing(true);
+    startTimeRef.current = Date.now();
+    
+    // Start animation loop
+    const animate = () => {
+      if (!startTimeRef.current) return;
+      
+      const elapsed = Date.now() - startTimeRef.current;
+      const newProgress = Math.min((elapsed / PRESS_DURATION) * 100, 100);
+      setProgress(newProgress);
+
+      if (elapsed >= PRESS_DURATION) {
+        setShowPhone(true);
+        setIsPressing(false);
+        setProgress(100);
+        
+        // Trigger vibration if available
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+      } else {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+    
+    animationFrameRef.current = requestAnimationFrame(animate);
+  };
+
+  const handlePressEnd = () => {
+    if (showPhone) return;
+    
+    setIsPressing(false);
+    setProgress(0);
+    startTimeRef.current = null;
+    
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  };
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -150,11 +214,33 @@ export function ProviderPage() {
               <h3 className="text-lg font-bold text-slate-900 mb-6 pb-4 border-b">Contact Provider</h3>
               
               <div className="space-y-4 mb-6">
-                <Button size="lg" className="w-full text-base font-bold h-12 bg-blue-600 hover:bg-blue-700" asChild>
-                  <a href={`tel:${provider.phone}`}>
-                    <Phone className="mr-2 h-5 w-5" /> {provider.phone}
-                  </a>
-                </Button>
+                {showPhone ? (
+                  <Button size="lg" className="w-full text-base font-bold h-12 bg-blue-600 hover:bg-blue-700 animate-in fade-in zoom-in duration-300" asChild>
+                    <a href={`tel:${provider.phone}`}>
+                      <Phone className="mr-2 h-5 w-5" /> {provider.phone}
+                    </a>
+                  </Button>
+                ) : (
+                  <Button 
+                    size="lg" 
+                    className="w-full text-base font-bold h-12 bg-slate-900 hover:bg-slate-800 relative overflow-hidden select-none touch-none active:scale-[0.98] transition-transform"
+                    onMouseDown={handlePressStart}
+                    onMouseUp={handlePressEnd}
+                    onMouseLeave={handlePressEnd}
+                    onTouchStart={handlePressStart}
+                    onTouchEnd={handlePressEnd}
+                  >
+                    {/* Progress Bar Background */}
+                    {isPressing && (
+                      <div 
+                        className="absolute inset-0 bg-white/20 transition-all duration-75 ease-linear origin-left"
+                        style={{ width: `${progress}%` }}
+                      />
+                    )}
+                    <Phone className="mr-2 h-5 w-5 relative z-10" /> 
+                    <span className="relative z-10">{isPressing ? "Hold to Reveal..." : "Hold to Reveal Phone"}</span>
+                  </Button>
+                )}
                 
                 {provider.website && (
                   <Button variant="outline" size="lg" className="w-full text-base h-12" asChild>
