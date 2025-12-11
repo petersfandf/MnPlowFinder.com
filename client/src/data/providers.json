@@ -344,10 +344,10 @@
   {
     "id": 105,
     "name": "ReShine Services LLC",
-    "city": "Red Wing",
+    "city": "Lake City",
     "lat": 44.560,
     "lng": -92.535,
-    "serviceAreas": ["Red Wing", "Surrounding area"],
+    "serviceAreas": ["Lake City"],
     "services": ["Snow removal", "Driveway plowing", "Sidewalk clearing", "Rooftop snow removal"],
     "residential": true,
     "commercial": true,
