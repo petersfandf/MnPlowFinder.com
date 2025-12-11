@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Phone, Globe, MapPin, Check, Clock, Truck, Shield, Star, ShieldCheck } from "lucide-react";
 import { Provider } from "@/components/ProviderCard";
+import { canRevealPhone, recordPhoneReveal, decodePhone } from "@/lib/utils";
+import { toast } from "sonner";
 
 export function ProviderPage() {
   const [match, params] = useRoute("/provider/:id/:slug");
@@ -18,6 +20,8 @@ export function ProviderPage() {
   const [showPhone, setShowPhone] = useState(false);
   const [isPressing, setIsPressing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [decodedPhoneNumber, setDecodedPhoneNumber] = useState<string>("");
+  
   const startTimeRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
@@ -40,6 +44,24 @@ export function ProviderPage() {
       setProgress(newProgress);
 
       if (elapsed >= PRESS_DURATION) {
+        // Check rate limit first
+        const rateCheck = canRevealPhone();
+        
+        if (!rateCheck.allowed) {
+          setIsPressing(false);
+          setProgress(0);
+          startTimeRef.current = null;
+          toast.error(rateCheck.message || "Rate limit exceeded");
+          return;
+        }
+
+        // Proceed with reveal
+        recordPhoneReveal();
+        
+        // Decode phone number
+        const phone = provider?.phoneEncoded ? decodePhone(provider.phoneEncoded) : provider?.phone || "";
+        setDecodedPhoneNumber(phone);
+
         setShowPhone(true);
         setIsPressing(false);
         setProgress(100);
@@ -216,8 +238,8 @@ export function ProviderPage() {
               <div className="space-y-4 mb-6">
                 {showPhone ? (
                   <Button size="lg" className="w-full text-base font-bold h-12 bg-blue-600 hover:bg-blue-700 animate-in fade-in zoom-in duration-300" asChild>
-                    <a href={`tel:${provider.phone}`}>
-                      <Phone className="mr-2 h-5 w-5" /> {provider.phone}
+                    <a href={`tel:${decodedPhoneNumber}`}>
+                      <Phone className="mr-2 h-5 w-5" /> {decodedPhoneNumber}
                     </a>
                   </Button>
                 ) : (

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Phone, Globe, MapPin, Check, Clock, ArrowRight, Star, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 import { siteConfig } from "@/config";
+import { canRevealPhone, recordPhoneReveal, decodePhone } from "@/lib/utils";
+import { toast } from "sonner"; // Assuming sonner is installed as it was in package list
 
 export interface Provider {
   id: number;
@@ -18,7 +20,8 @@ export interface Provider {
   commercial: boolean;
   ruralDriveways: boolean;
   twentyFourSeven: boolean;
-  phone: string;
+  phone?: string; // Optional now as we might use phoneEncoded
+  phoneEncoded?: string; // New field
   website: string;
   description: string;
   rating?: number;
@@ -42,6 +45,8 @@ export function ProviderCard({ provider }: ProviderCardProps) {
   const [showPhone, setShowPhone] = useState(false);
   const [isPressing, setIsPressing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [decodedPhoneNumber, setDecodedPhoneNumber] = useState<string>("");
+  
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -65,6 +70,24 @@ export function ProviderCard({ provider }: ProviderCardProps) {
       setProgress(newProgress);
 
       if (elapsed >= PRESS_DURATION) {
+        // Check rate limit first
+        const rateCheck = canRevealPhone();
+        
+        if (!rateCheck.allowed) {
+          setIsPressing(false);
+          setProgress(0);
+          startTimeRef.current = null;
+          toast.error(rateCheck.message || "Rate limit exceeded");
+          return;
+        }
+
+        // Proceed with reveal
+        recordPhoneReveal();
+        
+        // Decode phone number
+        const phone = provider.phoneEncoded ? decodePhone(provider.phoneEncoded) : provider.phone || "";
+        setDecodedPhoneNumber(phone);
+        
         setShowPhone(true);
         setIsPressing(false);
         setProgress(100);
@@ -75,7 +98,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
         }
         
         // Actually click the link after reveal
-        window.location.href = `tel:${provider.phone}`;
+        window.location.href = `tel:${phone}`;
       } else {
         animationFrameRef.current = requestAnimationFrame(animate);
       }
@@ -208,7 +231,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
           
           {showPhone ? (
             <Button asChild className="flex-1 bg-green-600 hover:bg-green-700 text-white animate-in fade-in zoom-in duration-300">
-              <a href={`tel:${provider.phone}`}>
+              <a href={`tel:${decodedPhoneNumber}`}>
                 <Phone className="mr-2 h-4 w-4" /> Call Now
               </a>
             </Button>
@@ -237,7 +260,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
         </div>
         <div className="w-full text-center">
           <a 
-            href={`mailto:${siteConfig?.providersEmail || 'providers@mnplowfinder.com'}?subject=Update Listing: ${provider.name}&body=I would like to claim and/or update our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0A%0D%0APlease update the following information (leave blank if no change):%0D%0A%0D%0A1. Contact Info:%0D%0A- Phone: ${provider.phone}%0D%0A- Website: ${provider.website}%0D%0A- Remove phone number from public listing? (Yes/No):%0D%0A%0D%0A2. Service Area:%0D%0A- Cities served: ${provider.serviceAreas.join(", ")}%0D%0A%0D%0A3. Availability Status (mark one with X):%0D%0A[ ] Accepting new clients%0D%0A[ ] Limited openings%0D%0A[ ] Waitlist only%0D%0A[ ] Season full / Closed%0D%0A%0D%0A4. Insurance:%0D%0A- Verified & Insured badge? (Requires proof): Yes/No%0D%0A%0D%0A5. Additional Notes/Changes:`}
+            href={`mailto:${siteConfig?.providersEmail || 'providers@mnplowfinder.com'}?subject=Update Listing: ${provider.name}&body=I would like to claim and/or update our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0A%0D%0APlease update the following information (leave blank if no change):%0D%0A%0D%0A1. Contact Info:%0D%0A- Phone: ${provider.phone || "(Hidden)"}%0D%0A- Website: ${provider.website}%0D%0A- Remove phone number from public listing? (Yes/No):%0D%0A%0D%0A2. Service Area:%0D%0A- Cities served: ${provider.serviceAreas.join(", ")}%0D%0A%0D%0A3. Availability Status (mark one with X):%0D%0A[ ] Accepting new clients%0D%0A[ ] Limited openings%0D%0A[ ] Waitlist only%0D%0A[ ] Season full / Closed%0D%0A%0D%0A4. Insurance:%0D%0A- Verified & Insured badge? (Requires proof): Yes/No%0D%0A%0D%0A5. Additional Notes/Changes:`}
             className="text-xs text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
           >
             Claim or update this listing

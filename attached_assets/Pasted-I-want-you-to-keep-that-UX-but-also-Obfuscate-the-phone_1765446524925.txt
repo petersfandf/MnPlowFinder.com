@@ -1,0 +1,147 @@
+I want you to keep that UX, but also:
+
+Obfuscate the phone number in the frontend JSON/data, so it’s not just a plain string like "phone": "(651) 388-7000" that a simple scraper can read.
+
+Add basic rate limiting on the client side so a single user/browser can’t reveal a huge number of phone numbers in a short time.
+
+Keep the site fully static – no backend or serverless functions. All logic must be in the frontend.
+
+Current Setup (assume something like this):
+
+There is a providers.json or a JS file with an array of provider objects such as:
+
+{
+  "id": 6,
+  "name": "River Valley Lawnscape",
+  "city": "Red Wing",
+  "phone": "(651) 388-7000",
+  "residential": true,
+  "commercial": true
+}
+
+
+The UI renders provider cards and shows a “Hold to Reveal Phone” button.
+
+Currently, the phone is likely stored in clear text, and the press-and-hold behavior just toggles visibility.
+
+What I want you to implement:
+1. Obfuscate phone numbers in the data
+
+Change the representation of phone numbers so they are not stored as plain text in the JSON. For example, you can:
+
+Store them as a simple encoded string, like base64 or a character code offset, e.g.:
+
+"phoneEncoded": "KDY1MSkgMzg4LTcwMDA="   // base64 of "(651) 388-7000"
+
+
+or something like:
+
+"phoneChunks": ["KDY1MSkgMzg4LQ==", "NzAwMA=="]
+
+
+Do not store the clear-text phone number anywhere in the JSON.
+
+Implement a small JS function on the frontend that decodes this format back into a usable phone string only when the user successfully completes the press-and-hold interaction.
+
+The decoding logic should be:
+
+Defined in a separate function, e.g. decodePhone(provider) in script.js.
+
+Not super “high security” (I know this is still client-side), but at least not trivial for a dumb scraper that just reads the JSON.
+
+2. Press-and-hold interaction (keep, but refactor)
+
+I want to keep the current UX: users must press and hold on the “Reveal Phone” button for ~1–1.5 seconds before the phone number appears.
+
+Implement (or refactor) something like this:
+
+Each provider card has a button: "Press and hold to reveal phone".
+
+On mousedown / touchstart, start a timer.
+
+If the user keeps holding for a defined threshold (e.g. 1200ms), then:
+
+Check the rate limit (see below).
+
+If allowed, decode and display the phone number and replace the button text with the actual phone (or show it beside the button).
+
+If they release early (mouseup / mouseleave / touchend / touchcancel), cancel the timer and do not reveal.
+
+Please implement this in a reusable way, e.g. a function like setupHoldToReveal(buttonElement, provider) that wires all events.
+
+3. Client-side rate limiting for reveals
+
+Add a simple rate limiting mechanism in JS to prevent abuse:
+
+Use localStorage to track:
+
+revealCount = number of reveals in a time window.
+
+revealWindowStart = timestamp (ms) when the current window started.
+
+Define a small policy, for example:
+
+Max 10 phone reveals per 10 minutes per browser.
+
+(You can choose sensible constants and keep them easy to tweak.)
+
+Algorithm outline:
+
+On each successful long press (before decoding):
+
+Get now = Date.now().
+
+If there is no revealWindowStart in localStorage, initialize it to now and revealCount to 0.
+
+If now - revealWindowStart > windowDurationMs (e.g. 10 * 60 * 1000), reset:
+
+revealWindowStart = now
+
+revealCount = 0
+
+If revealCount >= MAX_REVEALS_PER_WINDOW, deny the reveal:
+
+Show a friendly message like:
+
+“You’ve revealed the maximum number of provider phone numbers for now. Please try again later.”
+
+Do not decode or show the phone number.
+
+Otherwise, increment revealCount and allow the reveal.
+
+All of this must be purely client-side, no backend.
+
+Make the rate limit code modular, e.g.:
+
+const PHONE_REVEAL_LIMIT = 10;
+const PHONE_REVEAL_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+
+function canRevealPhone() { ... }
+function recordPhoneReveal() { ... }
+
+
+Use these inside the long-press logic.
+
+4. Visual cues
+
+When the phone number is revealed:
+
+Show it in a way that’s still easy to use:
+
+e.g., replace the button text with the phone number and optionally a “Tap to Call” link using tel: URL.
+
+If reveal is blocked by rate limit, show a small tooltip or inline text on the card explaining the limit.
+
+5. Integration details
+
+Please:
+
+Update the provider data format (JSON or JS file) with encoded phone fields for a few existing sample providers.
+
+Update the rendering code so it uses phoneEncoded or similar instead of phone.
+
+Implement and wire the press-and-hold logic with the new decoding + rate limit.
+
+Keep everything working in a single-page static app style, compatible with Netlify static hosting.
+
+You do not need to introduce a bundler or framework if I’m already using plain JS; if you see I’m using React or something else in the Replit project, adapt accordingly, but keep it as simple and readable as possible.
