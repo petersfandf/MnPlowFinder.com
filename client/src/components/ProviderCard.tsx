@@ -144,7 +144,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
         </div>
         <div className="w-full text-center">
           <a 
-            href={`mailto:${siteConfig?.providersEmail || 'providers@mnplowfinder.com'}?subject=Claim or update listing: ${provider.name}&body=I would like to claim and/or feature our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0APhone: ${provider.phone}%0D%0AWebsite: ${provider.website}%0D%0AProof of insurance available: Yes / No%0D%0A%0D%0AAdditional details:`}
+            href={`mailto:${siteConfig?.providersEmail || 'providers@mnplowfinder.com'}?subject=Update Listing: ${provider.name}&body=I would like to claim and/or update our listing on MN Plow Finder.%0D%0A%0D%0ABusiness Name: ${provider.name}%0D%0AContact Name:%0D%0A%0D%0APlease update the following information (leave blank if no change):%0D%0A%0D%0A1. Contact Info:%0D%0A- Phone: ${provider.phone}%0D%0A- Website: ${provider.website}%0D%0A- Remove phone number from public listing? (Yes/No):%0D%0A%0D%0A2. Service Area:%0D%0A- Cities served: ${provider.serviceAreas.join(", ")}%0D%0A%0D%0A3. Availability Status (mark one with X):%0D%0A[ ] Accepting new clients%0D%0A[ ] Limited openings%0D%0A[ ] Waitlist only%0D%0A[ ] Season full / Closed%0D%0A%0D%0A4. Insurance:%0D%0A- Verified & Insured badge? (Requires proof): Yes/No%0D%0A%0D%0A5. Additional Notes/Changes:`}
             className="text-xs text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
           >
             Claim or update this listing
