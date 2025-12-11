@@ -60,6 +60,16 @@ export function ProviderMap({ providers, onSelectCity }: ProviderMapProps) {
     });
   });
 
+  // Helper for availability sort weight
+  const getAvailabilityWeight = (status?: string) => {
+    switch (status) {
+      case 'accepting': return 3;
+      case 'limited': return 2;
+      case 'waitlist': return 0;
+      default: return 1; // closed or undefined
+    }
+  };
+
   return (
     <div className="h-[500px] w-full rounded-xl overflow-hidden shadow-md border border-slate-200 z-0">
       <MapContainer 
@@ -76,15 +86,16 @@ export function ProviderMap({ providers, onSelectCity }: ProviderMapProps) {
           const cityProviders = providersByCity[city] || [];
           if (cityProviders.length === 0) return null;
 
-          // Sort providers: rating desc, reviewCount desc, name asc
+          // Sort providers: Availability > Featured > Name (same as list view "Recommended")
           const sortedProviders = [...cityProviders].sort((a, b) => {
-             const ratingA = a.rating || 0;
-             const ratingB = b.rating || 0;
-             if (ratingA !== ratingB) return ratingB - ratingA;
+             const weightA = getAvailabilityWeight(a.availabilityStatus);
+             const weightB = getAvailabilityWeight(b.availabilityStatus);
              
-             const reviewsA = a.reviewCount || 0;
-             const reviewsB = b.reviewCount || 0;
-             if (reviewsA !== reviewsB) return reviewsB - reviewsA;
+             if (weightA !== weightB) return weightB - weightA;
+             
+             // Sort featured providers to the top within availability groups
+             if (a.featured && !b.featured) return -1;
+             if (!a.featured && b.featured) return 1;
              
              return a.name.localeCompare(b.name);
           });
