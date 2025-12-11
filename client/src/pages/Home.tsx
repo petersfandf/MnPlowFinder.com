@@ -261,19 +261,43 @@ export function Home() {
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
-              const businessName = formData.get('businessName');
-              const phone = formData.get('phone');
-              const city = formData.get('city');
-              // The Select component needs a hidden input to work with FormData or we need to manage state.
-              // Since we want to keep it simple and avoid adding state just for this, 
-              // let's grab the value from the select trigger text content (imperfect but works for mock) 
-              // OR better, let's just add a hidden input field that we update.
-              // Actually, simpler: just let the user know they will be redirected to email client.
+              const businessName = formData.get('businessName') as string;
+              const phone = formData.get('phone') as string;
+              const city = formData.get('city') as string;
+              const servicesStr = formData.get('services') as string;
+              // Radix Select with name prop injects a hidden input, so we can get the value
+              const availability = formData.get('availability') as string;
               
-              // Let's use a cleaner approach for the mailto body construction
-              const body = `Business Name: ${businessName}%0D%0APhone: ${phone}%0D%0ACity: ${city}%0D%0AAvailability: [Please specify in email]`;
+              const servicesList = servicesStr ? servicesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+              // Construct JSON object for easy copy-paste
+              const providerJson = {
+                id: "NEXT_ID",
+                name: businessName,
+                city: city,
+                lat: 0,
+                lng: 0,
+                serviceAreas: [city],
+                services: servicesList.length > 0 ? servicesList : ["Snow removal"],
+                residential: true,
+                commercial: false,
+                ruralDriveways: false,
+                twentyFourSeven: false,
+                phone: phone,
+                website: "",
+                description: "New listing.",
+                rating: 0,
+                reviewCount: 0,
+                featured: false,
+                availabilityStatus: availability || "closed"
+              };
+
+              const jsonString = JSON.stringify(providerJson, null, 2);
               
-              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}&body=${body}`;
+              // Create body with JSON block
+              const body = `Please add my business to the directory.%0D%0A%0D%0AJSON Data for Admin:%0D%0A${encodeURIComponent(jsonString)}`;
+              
+              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}: ${businessName}&body=${body}`;
             }}
           >
             <div>
