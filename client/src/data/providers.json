@@ -340,5 +340,31 @@
     "sources": [
       "https://www.facebook.com/matt.herzig"
     ]
+  },
+  {
+    "id": 105,
+    "name": "ReShine Services LLC",
+    "city": "Red Wing",
+    "lat": 44.560,
+    "lng": -92.535,
+    "serviceAreas": ["Red Wing", "Surrounding area"],
+    "services": ["Snow removal", "Driveway plowing", "Sidewalk clearing", "Rooftop snow removal"],
+    "residential": true,
+    "commercial": true,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phoneEncoded": "NjUxLTQ0OC0wMTc0",
+    "website": "https://www.facebook.com/ReShineServicesLLC",
+    "description": "Snow removal for small driveways, sidewalks, patios, gazebos, and roofs. Call or text for service.",
+    "rating": 0,
+    "reviewCount": 0,
+    "featured": false,
+    "accepting": true,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
+    "sources": [
+      "https://www.facebook.com/ReShineServicesLLC"
+    ]
   }
 ]
