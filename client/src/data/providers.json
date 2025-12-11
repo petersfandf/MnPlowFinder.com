@@ -176,3 +176,115 @@
     "featured": false
   }
 ]
+[
+  {
+    "id": 100,
+    "name": "Northern Elite Seasonal Services LLC",
+    "city": "Lake City",
+    "lat": ,
+    "lng": ,
+    "serviceAreas": ["Lake City", "Red Wing"],
+    "services": ["Snow removal", "Driveway plowing", "Sidewalk clearing", "Salting"],
+    "residential": true,
+    "commercial": true,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phone": "651-380-1568",
+    "website": "",
+    "description": "Commercial and residential snow removal proudly serving Lake City and Red Wing. Salting available.",
+    "rating": 0,
+    "reviewCount": 0,
+    "featured": false,
+    "sources": [
+      "https://www.facebook.com/NorthernEliteSeasonalServicesLLC/"
+    ]
+  },
+  {
+    "id": 101,
+    "name": "BWO Property Services LLC",
+    "city": "Red Wing",
+    "lat": ,
+    "lng": ,
+    "serviceAreas": ["Red Wing", "Surrounding area"],
+    "services": ["Snow removal", "Driveway plowing", "Sidewalk clearing"],
+    "residential": true,
+    "commercial": true,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phone": "651-380-0727",
+    "website": "https://facebook.com/bwopropertyservices",
+    "description": "Locally owned small business offering snow removal, fencing, and outdoor services with competitive pricing.",
+    "rating": 0,
+    "reviewCount": 6,
+    "featured": false,
+    "sources": [
+      "https://www.facebook.com/bwopropertyservices"
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Tim Reincke Construction LLC",
+    "city": "Lake City",
+    "lat": ,
+    "lng": ,
+    "serviceAreas": ["Lake City"],
+    "services": ["Snow removal", "Driveway plowing"],
+    "residential": true,
+    "commercial": false,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phone": "651-764-0501",
+    "website": "",
+    "description": "Local construction and snow removal contractor serving Lake City. Seasonal openings for driveway clearing.",
+    "rating": 0,
+    "reviewCount": 0,
+    "featured": false,
+    "sources": [
+      "https://www.facebook.com/tim.reincke"
+    ]
+  },
+  {
+    "id": 103,
+    "name": "Second Nature Landscaping",
+    "city": "Lake City",
+    "lat": ,
+    "lng": ,
+    "serviceAreas": ["Lake City"],
+    "services": ["Snow blowing", "Sidewalk clearing", "Driveway cleanup"],
+    "residential": true,
+    "commercial": false,
+    "ruralDriveways": false,
+    "twentyFourSeven": false,
+    "phone": "651-955-6570",
+    "website": "https://secondnaturelandscapingmn.com",
+    "description": "Fast, reliable snowblower-only snow removal option for Lake City residents. Ideal for last-minute cleanup requests.",
+    "rating": 0,
+    "reviewCount": 0,
+    "featured": false,
+    "sources": [
+      "https://www.facebook.com/secondnaturelandscaping"
+    ]
+  },
+  {
+    "id": 104,
+    "name": "Herzig Snow Removal LLC",
+    "city": "Lake City",
+    "lat": ,
+    "lng": ,
+    "serviceAreas": ["Lake City"],
+    "services": ["Snow removal", "Driveway plowing", "Sidewalk clearing", "Ice control"],
+    "residential": true,
+    "commercial": true,
+    "ruralDriveways": false,
+    "twentyFourSeven": true,
+    "phone": "651-448-0184",
+    "website": "",
+    "description": "Owner-operated snow removal business offering reliable 24-hour service, driveways, sidewalks, and ice control.",
+    "rating": 0,
+    "reviewCount": 0,
+    "featured": false,
+    "sources": [
+      "https://www.facebook.com/matt.herzig"
+    ]
+  }
+]
