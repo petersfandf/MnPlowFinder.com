@@ -9,9 +9,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List, ChevronDown } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List, ChevronDown, Check, ChevronsUpDown } from "lucide-react";
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
 import { siteConfig } from "@/config";
+import { cn } from "@/lib/utils";
+
+const SUGGESTED_CITIES = [
+  "Lake City",
+  "Red Wing",
+  "Wabasha",
+  "Rochester",
+  "Frontenac",
+  "Goodhue",
+  "Zumbrota",
+  "Cannon Falls",
+  "Winona",
+  "Plainview"
+];
 
 export function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +36,18 @@ export function Home() {
   const [selectedService, setSelectedService] = useState("all");
   const [sortBy, setSortBy] = useState<"recommended" | "name" | "rating">("recommended");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  
+  // Form state for multi-select cities
+  const [formCities, setFormCities] = useState<string[]>([]);
+  const [cityPopoverOpen, setCityPopoverOpen] = useState(false);
+
+  const toggleCity = (city: string) => {
+    setFormCities(current => 
+      current.includes(city) 
+        ? current.filter(c => c !== city)
+        : [...current, city]
+    );
+  };
 
   // Helper for availability sort weight
   const getAvailabilityWeight = (status?: string) => {
@@ -268,7 +296,7 @@ export function Home() {
               const businessName = formData.get('businessName') as string;
               const phone = formData.get('phone') as string;
               const website = formData.get('website') as string;
-              const cityInput = formData.get('city') as string; // "Service Cities"
+              // const cityInput = formData.get('city') as string; // Replaced by formCities state
               
               // Capabilities
               const residential = formData.get('residential') === 'on';
@@ -293,7 +321,7 @@ export function Home() {
               const availability = formData.get('availability') as string;
               
               // Service Areas
-              const serviceAreas = cityInput ? cityInput.split(',').map(s => s.trim()).filter(Boolean) : [];
+              const serviceAreas = formCities.length > 0 ? formCities : [];
               const primaryCity = serviceAreas.length > 0 ? serviceAreas[0] : "";
               
               const insured = formData.get('insured') === 'on';
@@ -332,7 +360,7 @@ export function Home() {
                 `Business Name: ${businessName}`,
                 `Phone: ${phone}`,
                 `Website: ${website || "N/A"}`,
-                `Service Cities: ${cityInput}`,
+                `Service Cities: ${serviceAreas.join(', ')}`,
                 `Availability: ${availability}`,
                 `Insured: ${insured ? "Yes" : "No"}`,
                 "",
@@ -378,9 +406,77 @@ export function Home() {
               </div>
 
               <div>
-                <Label htmlFor="city">Service Cities</Label>
-                <Input id="city" name="city" placeholder="Lake City, Red Wing, Wabasha" required className="mt-1" />
-                <p className="text-xs text-slate-500 mt-1">Separate multiple cities with commas</p>
+                <Label htmlFor="city-select">Service Cities</Label>
+                <Popover open={cityPopoverOpen} onOpenChange={setCityPopoverOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="city-select"
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={cityPopoverOpen}
+                      className="w-full justify-between mt-1 font-normal"
+                    >
+                      {formCities.length > 0
+                        ? `${formCities.length} selected`
+                        : "Select cities..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search cities..." />
+                      <CommandList>
+                        <CommandEmpty>No city found.</CommandEmpty>
+                        <CommandGroup>
+                          {SUGGESTED_CITIES.map((city) => (
+                            <CommandItem
+                              key={city}
+                              value={city}
+                              onSelect={() => toggleCity(city)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  formCities.includes(city) ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {city}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                
+                {formCities.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {formCities.map(city => (
+                      <span key={city} className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-xs flex items-center gap-1">
+                        {city}
+                        <button 
+                          type="button" 
+                          onClick={() => toggleCity(city)}
+                          className="hover:text-red-500 font-bold"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                {formCities.length === 0 && (
+                   <Input 
+                      className="hidden" 
+                      required 
+                      value={formCities.join(',')} 
+                      onChange={() => {}}
+                      onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity('Please select at least one city')}
+                      onInput={(e) => (e.target as HTMLInputElement).setCustomValidity('')}
+                   />
+                )}
+                <p className="text-xs text-slate-500 mt-1">Select all cities that you actively serve.</p>
               </div>
 
               <div className="pt-2">
