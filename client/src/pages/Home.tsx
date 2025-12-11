@@ -295,6 +295,8 @@ export function Home() {
               // Service Areas
               const serviceAreas = cityInput ? cityInput.split(',').map(s => s.trim()).filter(Boolean) : [];
               const primaryCity = serviceAreas.length > 0 ? serviceAreas[0] : "";
+              
+              const insured = formData.get('insured') === 'on';
 
               // Construct JSON object for easy copy-paste
               const providerJson = {
@@ -309,6 +311,7 @@ export function Home() {
                 commercial: commercial,
                 ruralDriveways: ruralDriveways,
                 twentyFourSeven: twentyFourSeven,
+                insured: insured,
                 phone: phone,
                 website: website || "",
                 description: "New listing.",
@@ -348,6 +351,20 @@ export function Home() {
                 <Label htmlFor="city">Service Cities</Label>
                 <Input id="city" name="city" placeholder="Lake City, Red Wing, Wabasha" required className="mt-1" />
                 <p className="text-xs text-slate-500 mt-1">Separate multiple cities with commas</p>
+              </div>
+
+              <div className="pt-2">
+                <div className="flex items-start space-x-2 bg-slate-50 p-3 rounded-md border border-slate-100">
+                  <Checkbox id="insured" name="insured" required />
+                  <div className="grid gap-1.5 leading-none">
+                    <Label htmlFor="insured" className="font-medium cursor-pointer">
+                      Insurance Confirmation
+                    </Label>
+                    <p className="text-xs text-slate-500">
+                      I confirm that I maintain valid liability insurance for the services provided.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
