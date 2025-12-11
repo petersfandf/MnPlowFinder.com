@@ -77,7 +77,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                 {provider.city} • Serving: {provider.serviceAreas.join(", ")}
               </div>
               {provider.featured && provider.rating && (
-                <div className="flex items-center gap-1">
+                /* <div className="flex items-center gap-1">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
                       <Star 
@@ -88,7 +88,8 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                   </div>
                   <span className="text-xs font-medium text-slate-700">{provider.rating}</span>
                   <span className="text-xs text-slate-400">({provider.reviewCount})</span>
-                </div>
+                </div> */
+                null
               )}
             </div>
           </div>

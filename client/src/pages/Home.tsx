@@ -89,12 +89,12 @@ export function Home() {
         return a.name.localeCompare(b.name);
       }
       
-      if (sortBy === "rating") {
+      /* if (sortBy === "rating") {
         const ratingA = a.rating || 0;
         const ratingB = b.rating || 0;
         if (ratingB !== ratingA) return ratingB - ratingA;
         return (b.reviewCount || 0) - (a.reviewCount || 0);
-      }
+      } */
 
       // Default "recommended" sort: Availability > Featured > Name
       const weightA = getAvailabilityWeight(a.availabilityStatus);
@@ -213,7 +213,7 @@ export function Home() {
                   <SelectContent>
                     <SelectItem value="recommended">Recommended</SelectItem>
                     <SelectItem value="name">Name (A-Z)</SelectItem>
-                    <SelectItem value="rating">Highest Rated</SelectItem>
+                    {/* <SelectItem value="rating">Highest Rated</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>

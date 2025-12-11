@@ -114,9 +114,9 @@ export function ProviderMap({ providers, onSelectCity }: ProviderMapProps) {
                         <div className="flex gap-1 mt-0.5">
                           {provider.residential && <span className="text-[10px] bg-blue-50 text-blue-700 px-1 rounded">Res</span>}
                           {provider.commercial && <span className="text-[10px] bg-slate-100 text-slate-700 px-1 rounded">Comm</span>}
-                          {provider.rating && provider.rating > 0 && (
+                          {/* {provider.rating && provider.rating > 0 && (
                              <span className="text-[10px] text-yellow-600 flex items-center">★ {provider.rating}</span>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     ))}
