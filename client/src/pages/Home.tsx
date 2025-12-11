@@ -355,13 +355,16 @@ export function Home() {
 
               <div className="pt-2">
                 <div className="flex items-start space-x-2 bg-slate-50 p-3 rounded-md border border-slate-100">
-                  <Checkbox id="insured" name="insured" required />
+                  <Checkbox id="insured" name="insured" />
                   <div className="grid gap-1.5 leading-none">
                     <Label htmlFor="insured" className="font-medium cursor-pointer">
                       Insurance Confirmation
                     </Label>
                     <p className="text-xs text-slate-500">
                       I confirm that I maintain valid liability insurance for the services provided.
+                    </p>
+                    <p className="text-[10px] text-slate-400 italic mt-1">
+                      Note: You may still submit without selecting this option. Listings marked as insured may be featured, prioritized or recommended.
                     </p>
                   </div>
                 </div>
