@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,74 @@ export function ProviderCard({ provider }: ProviderCardProps) {
   // Generate a SEO friendly slug
   const slug = provider.name.toLowerCase().replace(/\s+/g, '-');
   
+  // State for press-and-hold functionality
+  const [showPhone, setShowPhone] = useState(false);
+  const [isPressing, setIsPressing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  const PRESS_DURATION = 800; // ms to hold
+
+  const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
+    // Prevent default to stop scrolling/selecting on mobile while pressing
+    // e.preventDefault(); 
+    if (showPhone) return;
+    
+    setIsPressing(true);
+    startTimeRef.current = Date.now();
+    
+    // Start animation loop
+    const animate = () => {
+      if (!startTimeRef.current) return;
+      
+      const elapsed = Date.now() - startTimeRef.current;
+      const newProgress = Math.min((elapsed / PRESS_DURATION) * 100, 100);
+      setProgress(newProgress);
+
+      if (elapsed >= PRESS_DURATION) {
+        setShowPhone(true);
+        setIsPressing(false);
+        setProgress(100);
+        
+        // Trigger vibration if available
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+        
+        // Actually click the link after reveal
+        window.location.href = `tel:${provider.phone}`;
+      } else {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+    
+    animationFrameRef.current = requestAnimationFrame(animate);
+  };
+
+  const handlePressEnd = () => {
+    if (showPhone) return;
+    
+    setIsPressing(false);
+    setProgress(0);
+    startTimeRef.current = null;
+    
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+  };
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Card className={`flex flex-col h-full hover:shadow-md transition-shadow duration-200 ${provider.featured ? 'border-blue-400 shadow-sm ring-1 ring-blue-400/30' : 'border-slate-200'}`}>
       <CardHeader className="pb-3">
@@ -136,11 +205,35 @@ export function ProviderCard({ provider }: ProviderCardProps) {
               View Details <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild className="flex-1 bg-primary hover:bg-primary/90">
-            <a href={`tel:${provider.phone}`}>
-              <Phone className="mr-2 h-4 w-4" /> Call
-            </a>
-          </Button>
+          
+          {showPhone ? (
+            <Button asChild className="flex-1 bg-green-600 hover:bg-green-700 text-white animate-in fade-in zoom-in duration-300">
+              <a href={`tel:${provider.phone}`}>
+                <Phone className="mr-2 h-4 w-4" /> Call Now
+              </a>
+            </Button>
+          ) : (
+            <Button 
+              className="flex-1 bg-primary hover:bg-primary/90 relative overflow-hidden select-none touch-none active:scale-[0.98] transition-transform"
+              onMouseDown={handlePressStart}
+              onMouseUp={handlePressEnd}
+              onMouseLeave={handlePressEnd}
+              onTouchStart={handlePressStart}
+              onTouchEnd={handlePressEnd}
+              // onTouchCancel={handlePressEnd}
+            >
+              {/* Progress Bar Background */}
+              {isPressing && (
+                <div 
+                  className="absolute inset-0 bg-white/20 transition-all duration-75 ease-linear origin-left"
+                  style={{ width: `${progress}%` }}
+                />
+              )}
+              
+              <Phone className="mr-2 h-4 w-4 relative z-10" /> 
+              <span className="relative z-10">{isPressing ? "Hold..." : "Hold to Call"}</span>
+            </Button>
+          )}
         </div>
         <div className="w-full text-center">
           <a 
