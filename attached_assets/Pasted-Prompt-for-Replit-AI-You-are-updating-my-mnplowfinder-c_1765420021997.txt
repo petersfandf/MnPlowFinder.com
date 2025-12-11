@@ -1,0 +1,132 @@
+Prompt for Replit AI:
+
+You are updating my mnplowfinder.com project.
+
+Current context
+
+The project already has:
+
+A providers data source (JSON or TS/JS array) with fields like:
+
+id, name, city, lat, lng, serviceAreas, services, rating, reviewCount, ...
+
+A map component that currently renders one marker per provider, using each provider’s lat and lng.
+
+A list or sidebar of providers that can already be rendered / filtered by city or service area.
+
+Goal
+
+I want to stop using exact provider coordinates on the map and instead:
+
+Show one marker per city.
+
+When the user hovers or clicks a city marker:
+
+Show the top 3 providers that serve that city.
+
+If there are more than 3 providers, show a “See all providers serving CITY” call-to-action.
+
+Keep using the full provider list below / beside the map for detailed info.
+
+Keep the existing filters/search working.
+
+Step 1 – Add a city → coordinates map
+
+Create (or use) a file such as src/constants/cityCoordinates.ts and define this export:
+
+export const cityCoordinates: Record<string, { lat: number; lng: number }> = {
+  "Lake City":     { lat: 44.4430, lng: -92.2668 },
+  "Red Wing":      { lat: 44.5661, lng: -92.5370 },
+  "Wabasha":       { lat: 44.3710, lng: -92.0510 },
+  "Frontenac":     { lat: 44.5110, lng: -92.3568 },
+  "Cottage Grove": { lat: 44.8277, lng: -92.9438 },
+  "Hastings":      { lat: 44.7443, lng: -92.8605 },
+  "Lakeville":     { lat: 44.6497, lng: -93.2427 }
+};
+
+
+If there’s already a constants/config file, you can put this there instead, but keep the same structure and keys.
+
+Step 2 – Change the map to use city markers instead of provider markers
+
+Find the map component (for example Map.tsx, Map.jsx, or similar). It currently:
+
+Imports the providers array
+
+Loops over all providers
+
+Renders one marker per provider at provider.lat / provider.lng
+
+Refactor this as follows:
+
+Group providers by city:
+
+Build a dictionary like providersByCity: Record<string, Provider[]>.
+
+Only include cities that exist in cityCoordinates.
+
+Create one marker per city:
+
+For each city in providersByCity that also exists in cityCoordinates, place a single marker at cityCoordinates[city].lat/lng.
+
+Popup / hover content for each city marker:
+
+For each city’s providers, sort them by:
+
+rating (descending, missing ratings treated as 0)
+
+reviewCount (descending)
+
+name (as a tiebreaker)
+
+Take the top 3 providers for that city and show them in the marker popup as a compact list:
+
+Provider name
+
+One or two key tags (e.g., “Residential”, “Rural driveways”, etc., based on their boolean flags or services)
+
+If there are more than 3 providers for that city, include a line at the bottom:
+
+See all providers serving CITY →
+
+Wire “See all providers…” to the existing list behavior:
+
+Reuse any existing filter or selection logic if possible.
+
+When the user clicks “See all providers serving CITY”, trigger whatever state is used to show providers for that city in the list view (for example, set selectedCity or update route/query params).
+
+If there is no existing filter, implement a simple selectedCity state at the map/list parent level:
+
+When selectedCity is set, filter the provider list to only those whose serviceAreas includes that city OR whose city equals that city.
+
+Show a small “Clear city filter” link above the list.
+
+Do not rely on provider lat/lng for the map anymore:
+
+You can leave the lat / lng data in the provider objects for future use, but the map markers should be driven only by cityCoordinates and providersByCity.
+
+Step 3 – Keep types and behavior consistent
+
+If this is TypeScript, update or create the Provider interface/type to match the fields in providers.json.
+
+Ensure any map library types (Leaflet, Mapbox, etc.) are satisfied.
+
+Make sure:
+
+Existing search / service filters still work.
+
+The provider list still renders all entries when no city is selected.
+
+The UI doesn’t break on mobile.
+
+Step 4 – Show me the changes
+
+After you implement all of this:
+
+Show me the updated map component code.
+
+Show me the cityCoordinates definition you created.
+
+Briefly describe how “See all providers serving CITY” hooks into the provider list.
+
+Please make minimal but clean changes, and keep everything well-named and easy to extend later (I will add more cities and providers).

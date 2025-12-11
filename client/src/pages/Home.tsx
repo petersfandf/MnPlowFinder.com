@@ -77,7 +77,9 @@ export function Home() {
         provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         provider.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchesCity = selectedCity === "all" || provider.city === selectedCity;
+      const matchesCity = selectedCity === "all" || 
+                          provider.city === selectedCity || 
+                          provider.serviceAreas.includes(selectedCity);
       
       const matchesService = selectedService === "all" || provider.services.includes(selectedService);
 
@@ -250,7 +252,15 @@ export function Home() {
             </div>
           ) : (
             <div className="animate-in fade-in duration-500">
-              <ProviderMap providers={filteredProviders} />
+              <ProviderMap 
+                providers={providersData as unknown as Provider[]} 
+                onSelectCity={(city) => {
+                  setSelectedCity(city);
+                  setViewMode("list");
+                  // Scroll to top of results
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
             </div>
           )
         ) : (
