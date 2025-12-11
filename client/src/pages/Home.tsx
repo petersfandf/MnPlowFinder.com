@@ -6,6 +6,8 @@ import { ProviderMap } from "@/components/ProviderMap";
 import providersData from "@/data/providers.json";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List, ChevronDown } from "lucide-react";
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
@@ -257,34 +259,58 @@ export function Home() {
           </p>
           
           <form 
-            className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200"
+            className="max-w-xl mx-auto space-y-6 text-left bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200"
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
+              
+              // Basic Info
               const businessName = formData.get('businessName') as string;
               const phone = formData.get('phone') as string;
-              const city = formData.get('city') as string;
-              const servicesStr = formData.get('services') as string;
-              // Radix Select with name prop injects a hidden input, so we can get the value
+              const website = formData.get('website') as string;
+              const cityInput = formData.get('city') as string; // "Service Cities"
+              
+              // Capabilities
+              const residential = formData.get('residential') === 'on';
+              const commercial = formData.get('commercial') === 'on';
+              const twentyFourSeven = formData.get('twentyFourSeven') === 'on';
+              const ruralDriveways = formData.get('ruralDriveways') === 'on';
+              
+              // Services Construction
+              const servicesList = [];
+              if (formData.get('svc_plowing') === 'on') servicesList.push('Driveway plowing');
+              if (formData.get('svc_sidewalks') === 'on') servicesList.push('Sidewalk clearing');
+              if (formData.get('svc_salting') === 'on') servicesList.push('Salting');
+              if (formData.get('svc_snowblowing') === 'on') servicesList.push('Snow blowing');
+              
+              const otherServices = formData.get('services_other') as string;
+              if (otherServices) {
+                const others = otherServices.split(',').map(s => s.trim()).filter(Boolean);
+                servicesList.push(...others);
+              }
+
+              // Availability
               const availability = formData.get('availability') as string;
               
-              const servicesList = servicesStr ? servicesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+              // Service Areas
+              const serviceAreas = cityInput ? cityInput.split(',').map(s => s.trim()).filter(Boolean) : [];
+              const primaryCity = serviceAreas.length > 0 ? serviceAreas[0] : "";
 
               // Construct JSON object for easy copy-paste
               const providerJson = {
                 id: "NEXT_ID",
                 name: businessName,
-                city: city,
+                city: primaryCity,
                 lat: 0,
                 lng: 0,
-                serviceAreas: [city],
+                serviceAreas: serviceAreas,
                 services: servicesList.length > 0 ? servicesList : ["Snow removal"],
-                residential: true,
-                commercial: false,
-                ruralDriveways: false,
-                twentyFourSeven: false,
+                residential: residential,
+                commercial: commercial,
+                ruralDriveways: ruralDriveways,
+                twentyFourSeven: twentyFourSeven,
                 phone: phone,
-                website: "",
+                website: website || "",
                 description: "New listing.",
                 rating: 0,
                 reviewCount: 0,
@@ -300,44 +326,102 @@ export function Home() {
               window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}: ${businessName}&body=${body}`;
             }}
           >
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Business Name</label>
-              <Input name="businessName" placeholder="Joe's Plowing" required />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                <Input name="phone" placeholder="555-0123" required />
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg text-slate-900 border-b pb-2">Business Information</h3>
+              <div>
+                <Label htmlFor="businessName">Business Name</Label>
+                <Input id="businessName" name="businessName" placeholder="Joe's Plowing" required className="mt-1" />
               </div>
-               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
-                <Input name="city" placeholder="Lake City" required />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div>
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input id="phone" name="phone" placeholder="555-0123" required className="mt-1" />
+                </div>
+                 <div>
+                  <Label htmlFor="website">Website (Optional)</Label>
+                  <Input id="website" name="website" placeholder="https://" className="mt-1" />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="city">Service Cities</Label>
+                <Input id="city" name="city" placeholder="Lake City, Red Wing, Wabasha" required className="mt-1" />
+                <p className="text-xs text-slate-500 mt-1">Separate multiple cities with commas</p>
               </div>
             </div>
-            <div>
-               <label className="block text-sm font-medium text-slate-700 mb-1">Services Offered</label>
-               <Input name="services" placeholder="Driveways, Salting, etc." />
+
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg text-slate-900 border-b pb-2">Capabilities</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="residential" name="residential" defaultChecked />
+                  <Label htmlFor="residential" className="font-normal cursor-pointer">Residential</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="commercial" name="commercial" />
+                  <Label htmlFor="commercial" className="font-normal cursor-pointer">Commercial</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="twentyFourSeven" name="twentyFourSeven" />
+                  <Label htmlFor="twentyFourSeven" className="font-normal cursor-pointer">24/7 Service</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="ruralDriveways" name="ruralDriveways" />
+                  <Label htmlFor="ruralDriveways" className="font-normal cursor-pointer">Rural Driveways</Label>
+                </div>
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Client availability</label>
-              <Select name="availability" defaultValue="closed">
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select availability" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="accepting">Accepting new clients</SelectItem>
-                  <SelectItem value="limited">Limited openings</SelectItem>
-                  <SelectItem value="waitlist">Waitlist only</SelectItem>
-                  <SelectItem value="closed">Season full / not accepting</SelectItem>
-                </SelectContent>
-              </Select>
+
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg text-slate-900 border-b pb-2">Services</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="svc_plowing" name="svc_plowing" defaultChecked />
+                  <Label htmlFor="svc_plowing" className="font-normal cursor-pointer">Driveway Plowing</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="svc_sidewalks" name="svc_sidewalks" />
+                  <Label htmlFor="svc_sidewalks" className="font-normal cursor-pointer">Sidewalk Clearing</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="svc_salting" name="svc_salting" />
+                  <Label htmlFor="svc_salting" className="font-normal cursor-pointer">Salting / Ice Control</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="svc_snowblowing" name="svc_snowblowing" />
+                  <Label htmlFor="svc_snowblowing" className="font-normal cursor-pointer">Snow Blowing</Label>
+                </div>
+              </div>
+              <div>
+                 <Label htmlFor="services_other">Other Services</Label>
+                 <Input id="services_other" name="services_other" placeholder="Rooftop removal, Hauling, etc." className="mt-1" />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg text-slate-900 border-b pb-2">Status</h3>
+              <div>
+                <Label htmlFor="availability">Current Availability</Label>
+                <Select name="availability" defaultValue="closed">
+                  <SelectTrigger className="w-full mt-1">
+                    <SelectValue placeholder="Select availability" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="accepting">Accepting new clients</SelectItem>
+                    <SelectItem value="limited">Limited openings</SelectItem>
+                    <SelectItem value="waitlist">Waitlist only</SelectItem>
+                    <SelectItem value="closed">Season full / not accepting</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             
-            <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800">
-              Send Request via Email
+            <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-lg py-6 shadow-md">
+              Generate Request Email
             </Button>
             <p className="text-xs text-center text-slate-400 mt-4">
-              This will open your default email client to send the request.
+              This will open your default email client with the data pre-formatted.
             </p>
           </form>
         </div>
