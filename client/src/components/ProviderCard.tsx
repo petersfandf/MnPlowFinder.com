@@ -23,7 +23,10 @@ export interface Provider {
   rating?: number;
   reviewCount?: number;
   featured?: boolean;
-  availabilityStatus?: 'closed' | 'accepting' | 'limited' | 'waitlist' | 'unknown';
+  accepting: boolean;
+  limited: boolean;
+  waitlist: boolean;
+  closed: boolean;
 }
 
 interface ProviderCardProps {
@@ -50,17 +53,17 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                   </div>
                 </>
               )}
-              {provider.availabilityStatus === 'accepting' && (
+              {provider.accepting && (
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">
                   ✅ Accepting new clients
                 </span>
               )}
-              {provider.availabilityStatus === 'limited' && (
+              {provider.limited && (
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-100 text-yellow-800">
                   ⚠️ Limited openings
                 </span>
               )}
-              {provider.availabilityStatus === 'waitlist' && (
+              {provider.waitlist && (
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-800">
                   ⏳ Waitlist only
                 </span>

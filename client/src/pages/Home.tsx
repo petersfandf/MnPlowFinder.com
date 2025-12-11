@@ -50,14 +50,12 @@ export function Home() {
   };
 
   // Helper for availability sort weight
-  const getAvailabilityWeight = (status?: string) => {
-    switch (status) {
-      case 'accepting': return 3;
-      case 'limited': return 2;
-      case 'waitlist': return 0;
-      case 'closed': return -1;
-      default: return 1; // unknown
-    }
+  const getAvailabilityWeight = (provider: Provider) => {
+    if (provider.accepting) return 3;
+    if (provider.limited) return 2;
+    if (provider.waitlist) return 0;
+    if (provider.closed) return -1;
+    return 1; // unknown (all false)
   };
 
   // Extract unique cities and services for filters
@@ -98,8 +96,8 @@ export function Home() {
       } */
 
       // Default "recommended" sort: Availability > Featured > Name
-      const weightA = getAvailabilityWeight(a.availabilityStatus);
-      const weightB = getAvailabilityWeight(b.availabilityStatus);
+      const weightA = getAvailabilityWeight(a);
+      const weightB = getAvailabilityWeight(b);
       
       if (weightA !== weightB) return weightB - weightA;
       
@@ -330,6 +328,10 @@ export function Home() {
 
               // Availability
               const availability = formData.get('availability') as string;
+              const accepting = availability === 'accepting';
+              const limited = availability === 'limited';
+              const waitlist = availability === 'waitlist';
+              const closed = availability === 'closed';
               
               // Service Areas
               const serviceAreas = formCities.length > 0 ? formCities : [];
@@ -359,7 +361,10 @@ export function Home() {
                 rating: 0,
                 reviewCount: 0,
                 featured: false,
-                availabilityStatus: availability || "closed"
+                accepting,
+                limited,
+                waitlist,
+                closed
               };
 
               const jsonString = JSON.stringify(providerJson, null, 2);

@@ -61,14 +61,12 @@ export function ProviderMap({ providers, onSelectCity }: ProviderMapProps) {
   });
 
   // Helper for availability sort weight
-  const getAvailabilityWeight = (status?: string) => {
-    switch (status) {
-      case 'accepting': return 3;
-      case 'limited': return 2;
-      case 'waitlist': return 0;
-      case 'closed': return -1;
-      default: return 1; // unknown
-    }
+  const getAvailabilityWeight = (provider: Provider) => {
+    if (provider.accepting) return 3;
+    if (provider.limited) return 2;
+    if (provider.waitlist) return 0;
+    if (provider.closed) return -1;
+    return 1; // unknown
   };
 
   return (
@@ -89,8 +87,8 @@ export function ProviderMap({ providers, onSelectCity }: ProviderMapProps) {
 
           // Sort providers: Availability > Featured > Name (same as list view "Recommended")
           const sortedProviders = [...cityProviders].sort((a, b) => {
-             const weightA = getAvailabilityWeight(a.availabilityStatus);
-             const weightB = getAvailabilityWeight(b.availabilityStatus);
+             const weightA = getAvailabilityWeight(a);
+             const weightB = getAvailabilityWeight(b);
              
              if (weightA !== weightB) return weightB - weightA;
              

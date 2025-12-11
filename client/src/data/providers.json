@@ -17,7 +17,10 @@
     "rating": 4.4,
     "reviewCount": 22,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 13,
@@ -42,7 +45,10 @@
     "rating": 5.0,
     "reviewCount": 2,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 17,
@@ -62,7 +68,10 @@
     "rating": 4.8,
     "reviewCount": 12,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 15,
@@ -82,7 +91,10 @@
     "rating": 4.5,
     "reviewCount": 10,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 18,
@@ -102,7 +114,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 11,
@@ -122,7 +137,10 @@
     "rating": 4.2,
     "reviewCount": 5,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 12,
@@ -142,7 +160,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 14,
@@ -162,7 +183,10 @@
     "rating": 5.0,
     "reviewCount": 2,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 19,
@@ -182,7 +206,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown"
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false
   },
   {
     "id": 100,
@@ -202,7 +229,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown",
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
     "sources": [
       "https://www.facebook.com/NorthernEliteSeasonalServicesLLC/"
     ]
@@ -225,7 +255,10 @@
     "rating": 0,
     "reviewCount": 6,
     "featured": false,
-    "availabilityStatus": "unknown",
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
     "sources": [
       "https://www.facebook.com/bwopropertyservices"
     ]
@@ -248,7 +281,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown",
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
     "sources": [
       "https://www.facebook.com/tim.reincke"
     ]
@@ -271,7 +307,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown",
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
     "sources": [
       "https://www.facebook.com/secondnaturelandscaping"
     ]
@@ -294,7 +333,10 @@
     "rating": 0,
     "reviewCount": 0,
     "featured": false,
-    "availabilityStatus": "unknown",
+    "accepting": false,
+    "limited": false,
+    "waitlist": false,
+    "closed": false,
     "sources": [
       "https://www.facebook.com/matt.herzig"
     ]
