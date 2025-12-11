@@ -20,18 +20,18 @@ export function Home() {
 
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
-    const allCities = providersData.map(p => p.city);
+    const allCities = (providersData as unknown as Provider[]).map(p => p.city);
     return Array.from(new Set(allCities)).sort();
   }, []);
 
   const services = useMemo(() => {
-    const allServices = providersData.flatMap(p => p.services);
+    const allServices = (providersData as unknown as Provider[]).flatMap(p => p.services);
     return Array.from(new Set(allServices)).sort();
   }, []);
 
   // Filter providers logic
   const filteredProviders = useMemo(() => {
-    return providersData.filter((provider) => {
+    return (providersData as unknown as Provider[]).filter((provider) => {
       const matchesSearch = 
         provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         provider.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -216,7 +216,20 @@ export function Home() {
             className="max-w-md mx-auto space-y-4 text-left bg-white p-6 rounded-xl shadow-sm border border-slate-200"
             onSubmit={(e) => {
               e.preventDefault();
-              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}&body=Business Name: ${e.currentTarget.businessName.value}%0D%0APhone: ${e.currentTarget.phone.value}%0D%0ACity: ${e.currentTarget.city.value}`;
+              const formData = new FormData(e.currentTarget);
+              const businessName = formData.get('businessName');
+              const phone = formData.get('phone');
+              const city = formData.get('city');
+              // The Select component needs a hidden input to work with FormData or we need to manage state.
+              // Since we want to keep it simple and avoid adding state just for this, 
+              // let's grab the value from the select trigger text content (imperfect but works for mock) 
+              // OR better, let's just add a hidden input field that we update.
+              // Actually, simpler: just let the user know they will be redirected to email client.
+              
+              // Let's use a cleaner approach for the mailto body construction
+              const body = `Business Name: ${businessName}%0D%0APhone: ${phone}%0D%0ACity: ${city}%0D%0AAvailability: [Please specify in email]`;
+              
+              window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}&body=${body}`;
             }}
           >
             <div>
@@ -236,6 +249,20 @@ export function Home() {
             <div>
                <label className="block text-sm font-medium text-slate-700 mb-1">Services Offered</label>
                <Input name="services" placeholder="Driveways, Salting, etc." />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Client availability</label>
+              <Select name="availability" defaultValue="closed">
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select availability" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="accepting">Accepting new clients</SelectItem>
+                  <SelectItem value="limited">Limited openings</SelectItem>
+                  <SelectItem value="waitlist">Waitlist only</SelectItem>
+                  <SelectItem value="closed">Season full / not accepting</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800">

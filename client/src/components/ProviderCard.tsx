@@ -23,6 +23,7 @@ export interface Provider {
   rating?: number;
   reviewCount?: number;
   featured?: boolean;
+  availabilityStatus?: 'closed' | 'accepting' | 'limited' | 'waitlist';
 }
 
 interface ProviderCardProps {
@@ -38,7 +39,7 @@ export function ProviderCard({ provider }: ProviderCardProps) {
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               {provider.featured && (
                 <>
                   <Badge className="bg-blue-600 hover:bg-blue-700 border-blue-600 text-white px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider flex items-center gap-1">
@@ -48,6 +49,21 @@ export function ProviderCard({ provider }: ProviderCardProps) {
                     <ShieldCheck className="h-3 w-3" /> Verified & Insured
                   </div>
                 </>
+              )}
+              {provider.availabilityStatus === 'accepting' && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">
+                  ✅ Accepting new clients
+                </span>
+              )}
+              {provider.availabilityStatus === 'limited' && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-100 text-yellow-800">
+                  ⚠️ Limited openings
+                </span>
+              )}
+              {provider.availabilityStatus === 'waitlist' && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-800">
+                  ⏳ Waitlist only
+                </span>
               )}
             </div>
             <Link href={`/provider/${provider.id}/${slug}`}>

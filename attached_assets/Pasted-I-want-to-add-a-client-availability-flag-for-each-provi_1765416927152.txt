@@ -1,0 +1,106 @@
+I want to add a client availability flag for each provider, driven by the JSON data and controllable from the “Add a Business” form.
+
+1. Data model & JSON changes
+
+In whatever shared type/interface is used for providers (e.g. Provider, Business, etc.), add a new field:
+
+// New field – availability status
+availabilityStatus?: 'closed' | 'accepting' | 'limited' | 'waitlist';
+
+
+Behavior:
+
+Default should effectively be no flag for all existing providers.
+
+For any provider object that does not have availabilityStatus defined, treat it as 'closed' internally.
+
+Only "accepting" should show an eye-catching indicator on the listing cards.
+
+Update the JSON seed file that contains provider data (the one with id, name, city, etc.) so it supports this new property.
+
+Don’t change existing entries yet; keep them without availabilityStatus so we can see the default behavior.
+
+Add an example provider with "availabilityStatus": "accepting" so I can confirm the UI works.
+
+2. Add-a-Business form (new field)
+
+In the “Add Your Business” / “Add Listing” form:
+
+Add a new dropdown field:
+
+Label: Client availability
+
+Name/key should map to availabilityStatus.
+
+Options (value → label):
+
+accepting → Accepting new clients
+
+limited → Limited openings
+
+waitlist → Waitlist only
+
+closed → Season full / not accepting
+
+Default selected value in the form should be closed.
+
+Make sure this value is saved all the way through:
+
+React form state
+
+Any API route / server handler that creates the provider
+
+The stored provider object now includes availabilityStatus.
+
+3. Display on listing cards
+
+On each provider card on the main MN Plow Finder results page:
+
+If availabilityStatus === 'accepting', show an eye-catching badge near the top of the card (under the provider name, or near the rating) such as:
+
+<span class="availability-badge availability-accepting">
+  ✅ Accepting new clients
+</span>
+
+
+If availabilityStatus === 'limited', show a more subtle badge, e.g.:
+
+<span class="availability-badge availability-limited">
+  ⚠️ Limited openings
+</span>
+
+
+If availabilityStatus === 'waitlist', show:
+
+<span class="availability-badge availability-waitlist">
+  ⏳ Waitlist only
+</span>
+
+
+If availabilityStatus is closed or undefined, do not show any badge at all (this is the “no flag” default).
+
+4. Styling
+
+Add minimal CSS/utility classes so the “Accepting new clients” badge is visually prominent:
+
+Distinct background and bold text for .availability-accepting
+
+Slightly toned-down styles for .availability-limited and .availability-waitlist
+
+Small rounded pill look so it fits nicely on the card
+
+You don’t need to redesign the layout — just integrate the badge cleanly with the existing card design.
+
+5. Sanity checks
+
+Ensure TypeScript doesn’t complain anywhere availabilityStatus is accessed.
+
+Make sure server and client code both accept the new field without breaking existing data.
+
+Confirm:
+
+Existing providers (without the new field) display no badge.
+
+A test provider with "availabilityStatus": "accepting" shows the green “Accepting new clients” badge.
+
+Please implement all of this in the current MN Plow Finder project.
