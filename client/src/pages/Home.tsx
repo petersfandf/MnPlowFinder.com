@@ -297,6 +297,8 @@ export function Home() {
               const primaryCity = serviceAreas.length > 0 ? serviceAreas[0] : "";
               
               const insured = formData.get('insured') === 'on';
+              
+              const notes = formData.get('notes') as string;
 
               // Construct JSON object for easy copy-paste
               const providerJson = {
@@ -314,7 +316,7 @@ export function Home() {
                 insured: insured,
                 phone: phone,
                 website: website || "",
-                description: "New listing.",
+                description: notes || "New listing.",
                 rating: 0,
                 reviewCount: 0,
                 featured: false,
@@ -323,8 +325,32 @@ export function Home() {
 
               const jsonString = JSON.stringify(providerJson, null, 2);
               
+              // Human readable summary
+              const summary = `
+New Business Submission:
+------------------------
+Business Name: ${businessName}
+Phone: ${phone}
+Website: ${website || "N/A"}
+Service Cities: ${cityInput}
+Availability: ${availability}
+Insured: ${insured ? "Yes" : "No"}
+
+Capabilities:
+- Residential: ${residential ? "Yes" : "No"}
+- Commercial: ${commercial ? "Yes" : "No"}
+- 24/7 Service: ${twentyFourSeven ? "Yes" : "No"}
+- Rural Driveways: ${ruralDriveways ? "Yes" : "No"}
+
+Services:
+${servicesList.map(s => `- ${s}`).join('\n')}
+
+Notes:
+${notes || "N/A"}
+              `.trim();
+              
               // Create body with JSON block
-              const body = `Please add my business to the directory.%0D%0A%0D%0AJSON Data for Admin:%0D%0A${encodeURIComponent(jsonString)}`;
+              const body = `${summary}%0D%0A%0D%0A------------------------%0D%0AJSON Data for Admin:%0D%0A${encodeURIComponent(jsonString)}`;
               
               window.location.href = `mailto:${siteConfig.providersEmail}?subject=${siteConfig.addBusinessSubject}: ${businessName}&body=${body}`;
             }}
@@ -435,6 +461,20 @@ export function Home() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+
+            <div className="space-y-4">
+               <h3 className="font-semibold text-lg text-slate-900 border-b pb-2">Additional Notes</h3>
+               <div>
+                 <Label htmlFor="notes">Notes regarding your business (up to 300 chars)</Label>
+                 <textarea 
+                    id="notes" 
+                    name="notes" 
+                    placeholder="e.g. We have been in business for 20 years and specialize in..." 
+                    className="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
+                    maxLength={300}
+                 />
+               </div>
             </div>
             
             <Button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-lg py-6 shadow-md">
