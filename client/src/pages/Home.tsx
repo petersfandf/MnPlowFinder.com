@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ProviderCard, Provider } from "@/components/ProviderCard";
@@ -146,6 +146,18 @@ export function Home() {
       return a.name.localeCompare(b.name);
     });
   }, [searchTerm, selectedCity, selectedService, sortBy]);
+
+  // Collapse filters on scroll
+  useEffect(() => {
+    if (!isFiltersOpen) return;
+
+    const handleScroll = () => {
+      setIsFiltersOpen(false);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isFiltersOpen]);
 
   const handleSearch = () => {
     // Scroll to results
