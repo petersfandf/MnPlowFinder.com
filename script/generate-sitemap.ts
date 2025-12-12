@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { SUGGESTED_CITIES } from '../client/src/data/cities';
 
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -21,14 +22,6 @@ const STATIC_ROUTES = [
   { url: '/partner', priority: '0.6', changefreq: 'monthly' },
 ];
 
-// City Slugs (derived from CityPage.tsx logic)
-const CITY_SLUGS = [
-  'lake-city',
-  'red-wing',
-  'wabasha',
-  'rochester'
-];
-
 // Helper to slugify text (matches ProviderCard.tsx but cleaner for URL safety)
 function slugify(text: string): string {
   return text
@@ -36,6 +29,11 @@ function slugify(text: string): string {
     .replace(/&/g, 'and') // Replace & with 'and'
     .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with dash
     .replace(/^-+|-+$/g, ''); // Trim dashes
+}
+
+// Helper to create city slugs (matches post-build.ts)
+function toCitySlug(city: string) {
+  return `${city.toLowerCase().replace(/\s+/g, '-')}-mn-snow-removal`;
 }
 
 // Main generation function
@@ -61,9 +59,9 @@ async function generateSitemap() {
   }
 
   // Cities
-  for (const city of CITY_SLUGS) {
+  for (const city of SUGGESTED_CITIES) {
     urls.push({
-      loc: `${BASE_URL}/${city}`,
+      loc: `${BASE_URL}/${toCitySlug(city)}`,
       lastmod: new Date().toISOString().split('T')[0],
       priority: '0.7',
       changefreq: 'weekly'
@@ -100,7 +98,7 @@ ${urls.map(u => `  <url>
   // 5. Print Inventory for User
   console.log('\n--- URL INVENTORY ---');
   console.log(`Total Providers: ${providers.length}`);
-  console.log(`Total Cities: ${CITY_SLUGS.length}`);
+  console.log(`Total Cities: ${SUGGESTED_CITIES.length}`);
   console.log(`Total Static: ${STATIC_ROUTES.length}`);
   console.log('---------------------');
 }

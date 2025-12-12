@@ -16,19 +16,7 @@ import heroImage from "@assets/generated_images/snowy_residential_street_in_minn
 import { siteConfig } from "@/config";
 import { cn } from "@/lib/utils";
 import { SEO } from "@/components/SEO";
-
-const SUGGESTED_CITIES = [
-  "Lake City",
-  "Red Wing",
-  "Wabasha",
-  "Rochester",
-  "Frontenac",
-  "Goodhue",
-  "Zumbrota",
-  "Cannon Falls",
-  "Winona",
-  "Plainview"
-];
+import { SUGGESTED_CITIES } from "@/data/cities";
 
 export function Home() {
   const [searchTerm, setSearchTerm] = useState("");

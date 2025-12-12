@@ -50,6 +50,14 @@ async function buildAll() {
   console.log("building client...");
   await viteBuild();
 
+  console.log("generating static paths for GitHub Pages...");
+  try {
+    await execAsync("npx tsx script/post-build.ts");
+    console.log("static paths generated successfully");
+  } catch (error) {
+    console.error("failed to generate static paths:", error);
+  }
+
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
