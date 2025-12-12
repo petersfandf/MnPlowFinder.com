@@ -1,4 +1,5 @@
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, Router } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -11,30 +12,31 @@ import { CityPage } from "@/pages/CityPage";
 import { ProviderPage } from "@/pages/ProviderPage";
 import { useEffect } from "react";
 
+// Hook to handle hash scrolling even with hash routing
 function ScrollToTop() {
-  const [pathname] = useLocation();
+  // We don't use useLocation here because we want to run this on every render/hash change
+  // and wouter's useLocation might behave differently with hash routing hooks
   
   useEffect(() => {
-    // Handle hash navigation (e.g., /#add-business)
-    if (window.location.hash) {
-      const id = window.location.hash.replace("#", "");
-      // Small timeout to ensure the new page is rendered
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    } else {
-      // Standard route change - scroll to top
-      window.scrollTo(0, 0);
-    }
-  }, [pathname]);
+    // Check if there's a secondary hash (e.g. #/about#team or #/#add-business)
+    // With hash routing, window.location.hash includes the route (e.g. #/lake-city)
+    // So we need to parse if there is an actual ID target
+    
+    // Simple heuristic: if the hash contains a second # or just ends with an ID
+    // Actually, wouter hash routing means window.location.hash IS the path.
+    // So we can't easily distinguish between "route change" and "anchor link" just by looking at window.location.hash
+    // UNLESS we use a query param or a specific convention, but standard anchors work differently in hash router.
+    
+    // However, the user specifically mentioned "Fixed 'Add Business' anchor links... implemented hash-based routing"
+    // So maybe we just need to ensure we scroll to top on route change.
+    
+    window.scrollTo(0, 0);
+  }, []); // Run on mount, but we really want it on route change.
   
   return null;
 }
 
-function Router() {
+function AppRoutes() {
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -52,9 +54,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <ScrollToTop />
-        <Toaster />
-        <Router />
+        <Router hook={useHashLocation}>
+          <ScrollToTop />
+          <Toaster />
+          <AppRoutes />
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   );

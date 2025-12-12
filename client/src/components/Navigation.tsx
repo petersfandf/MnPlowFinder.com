@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function Navigation() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
@@ -12,6 +12,31 @@ export function Navigation() {
     { href: "/about", label: "About" },
     { href: "/#add-business", label: "Add Business" },
   ];
+
+  const handleAddBusinessClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(false);
+    
+    // If we are already on the home page, just scroll
+    if (location === "/") {
+      const el = document.getElementById("add-business");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        // Update hash without triggering a route change if possible, 
+        // or just leave it since we're scrolling
+      }
+    } else {
+      // If we are on another page, navigate to home
+      // The user will land on top of home. 
+      // Ideally we would scroll down, but for now simple navigation is safer than complex hash state
+      setLocation("/");
+      // Use a timeout to try scrolling after navigation
+      setTimeout(() => {
+        const el = document.getElementById("add-business");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
+  };
 
   return (
     <nav className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
@@ -31,15 +56,9 @@ export function Navigation() {
                 <a
                   key={link.href}
                   href="/#add-business"
-                  onClick={(e) => {
-                    if (window.location.pathname === "/") {
-                      e.preventDefault();
-                      const el = document.getElementById("add-business");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
+                  onClick={handleAddBusinessClick}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary",
+                    "text-sm font-medium transition-colors hover:text-primary cursor-pointer",
                     location === link.href
                       ? "text-primary"
                       : "text-muted-foreground"
@@ -77,23 +96,16 @@ export function Navigation() {
 
         {/* Mobile Nav Menu */}
       {isOpen && (
-        <div className="md:hidden border-t bg-white p-4 flex flex-col gap-4 shadow-lg absolute w-full">
+        <div className="md:hidden border-t bg-white p-4 flex flex-col gap-4 shadow-lg absolute w-full left-0">
           {navLinks.map((link) => {
             if (link.href === "/#add-business") {
               return (
                 <a
                   key={link.href}
                   href="/#add-business"
-                  onClick={(e) => {
-                    setIsOpen(false);
-                    if (window.location.pathname === "/") {
-                      e.preventDefault();
-                      const el = document.getElementById("add-business");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
+                  onClick={handleAddBusinessClick}
                   className={cn(
-                    "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors",
+                    "text-base font-medium py-2 px-4 rounded-md hover:bg-muted transition-colors cursor-pointer",
                     location === link.href
                       ? "bg-primary/10 text-primary"
                       : "text-foreground"
