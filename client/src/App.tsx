@@ -15,7 +15,20 @@ function ScrollToTop() {
   const [pathname] = useLocation();
   
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Handle hash navigation (e.g., /#add-business)
+    if (window.location.hash) {
+      const id = window.location.hash.replace("#", "");
+      // Small timeout to ensure the new page is rendered
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      // Standard route change - scroll to top
+      window.scrollTo(0, 0);
+    }
   }, [pathname]);
   
   return null;
