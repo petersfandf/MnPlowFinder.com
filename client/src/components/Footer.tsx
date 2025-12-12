@@ -47,9 +47,11 @@ export function Footer() {
               <p className="text-sm text-slate-400 mb-4">
                 Are you a snow removal professional in SE MN? Get listed in our directory for free.
               </p>
-              <a href={`mailto:${siteConfig.providersEmail}`} className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
-                Request Listing
-              </a>
+              <Link href="/#add-business">
+                <a className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
+                  Request Listing
+                </a>
+              </Link>
             </div>
           </div>
         </div>
