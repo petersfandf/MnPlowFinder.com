@@ -11,6 +11,8 @@ import { canRevealPhone, recordPhoneReveal, decodePhone } from "@/lib/utils";
 import { toast } from "sonner";
 import { SEO } from "@/components/SEO";
 
+import { slugify } from "@/lib/utils";
+
 export function ProviderPage({ provider: propProvider }: { provider?: Provider }) {
   const [match, params] = useRoute("/provider/:id/:slug");
   
@@ -21,6 +23,13 @@ export function ProviderPage({ provider: propProvider }: { provider?: Provider }
     id = parseInt(params?.id || "0");
     provider = providersData.find(p => p.id === id) as Provider | undefined;
   }
+
+  // Construct Canonical URL
+  // This ensures that whether we are on /glander-excavating or /provider/13/glander-excavating
+  // The canonical tag ALWAYS points to the long, official version.
+  const canonicalUrl = provider 
+    ? `https://mnplowfinder.com/provider/${provider.id}/${slugify(provider.name)}`
+    : undefined;
 
   // State for press-and-hold functionality
   const [showPhone, setShowPhone] = useState(false);
@@ -128,6 +137,7 @@ export function ProviderPage({ provider: propProvider }: { provider?: Provider }
       <SEO 
         title={`${provider.name} | Snow Removal in ${provider.city}`} 
         description={provider.description.substring(0, 160)} 
+        canonical={canonicalUrl}
       />
       <Navigation />
       
