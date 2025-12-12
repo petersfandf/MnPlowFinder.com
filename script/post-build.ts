@@ -7,7 +7,7 @@ import { SUGGESTED_CITIES } from '../client/src/data/cities';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, '..');
-const DIST_DIR = path.resolve(PROJECT_ROOT, 'dist');
+const DIST_DIR = path.resolve(PROJECT_ROOT, 'dist/public');
 
 // Convert string to slug (e.g. "Lake City" -> "lake-city-mn-snow-removal")
 // Note: This logic must match the slug generation in App.tsx or wherever users navigate
