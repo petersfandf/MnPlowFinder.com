@@ -60,13 +60,41 @@ export function Home() {
     return 1; // unknown (all false)
   };
 
+  // Helper to check if a provider matches the search term across all fields
+  const matchesSearchTerm = (provider: Provider, term: string) => {
+    if (!term) return true;
+    const lowerTerm = term.toLowerCase();
+    
+    // Check basic text fields
+    if (provider.name.toLowerCase().includes(lowerTerm) || 
+        provider.description.toLowerCase().includes(lowerTerm)) {
+      return true;
+    }
+    
+    // Check services
+    if (provider.services.some(service => service.toLowerCase().includes(lowerTerm))) {
+      return true;
+    }
+    
+    // Check specific capability flags
+    if (lowerTerm.includes("residential") && provider.residential) return true;
+    if (lowerTerm.includes("commercial") && provider.commercial) return true;
+    if ((lowerTerm.includes("24/7") || lowerTerm.includes("24 hour")) && provider.twentyFourSeven) return true;
+    
+    // Check location
+    if (provider.city.toLowerCase().includes(lowerTerm) || 
+        provider.serviceAreas.some(area => area.toLowerCase().includes(lowerTerm))) {
+      return true;
+    }
+
+    return false;
+  };
+
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
     // Base providers are those matching the search term
     const searchMatches = (providersData as unknown as Provider[]).filter((provider) => {
-      const term = searchTerm.toLowerCase();
-      return provider.name.toLowerCase().includes(term) ||
-             provider.description.toLowerCase().includes(term);
+      return matchesSearchTerm(provider, searchTerm);
     });
 
     // If search term exists, only show cities from matching providers
@@ -89,9 +117,7 @@ export function Home() {
   const services = useMemo(() => {
      // Base providers are those matching the search term
     const searchMatches = (providersData as unknown as Provider[]).filter((provider) => {
-      const term = searchTerm.toLowerCase();
-      return provider.name.toLowerCase().includes(term) ||
-             provider.description.toLowerCase().includes(term);
+      return matchesSearchTerm(provider, searchTerm);
     });
 
     // If search term exists, only show services from matching providers
@@ -110,9 +136,7 @@ export function Home() {
   // Filter providers logic
   const filteredProviders = useMemo(() => {
     return (providersData as unknown as Provider[]).filter((provider) => {
-      const matchesSearch = 
-        provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        provider.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = matchesSearchTerm(provider, searchTerm);
       
       const matchesCity = selectedCity === "all" || 
                           provider.city === selectedCity || 
