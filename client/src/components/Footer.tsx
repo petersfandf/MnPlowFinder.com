@@ -1,8 +1,30 @@
 import { Snowflake } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { siteConfig } from "@/config";
 
 export function Footer() {
+  const [location, setLocation] = useLocation();
+
+  const handleRequestListingClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // If we are already on the home page, just scroll
+    if (location === "/") {
+      const el = document.getElementById("add-business");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // If we are on another page, navigate to home
+      setLocation("/");
+      // Use a timeout to try scrolling after navigation
+      setTimeout(() => {
+        const el = document.getElementById("add-business");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
+  };
+
   return (
     <footer className="bg-slate-900 text-slate-300 py-12 mt-20">
       <div className="container mx-auto px-4">
@@ -47,11 +69,13 @@ export function Footer() {
               <p className="text-sm text-slate-400 mb-4">
                 Are you a snow removal professional in SE MN? Get listed in our directory for free.
               </p>
-              <Link href="/#add-business">
-                <a className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors">
-                  Request Listing
-                </a>
-              </Link>
+              <a 
+                href="/#add-business"
+                onClick={handleRequestListingClick}
+                className="inline-block text-sm font-medium text-white bg-primary hover:bg-primary/90 px-4 py-2 rounded-md transition-colors cursor-pointer"
+              >
+                Request Listing
+              </a>
             </div>
           </div>
         </div>
