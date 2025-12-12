@@ -16,8 +16,13 @@ const DIST_DIR = path.resolve(PROJECT_ROOT, 'dist');
 // So we should generate slugs that match what users expect.
 // The user has been using "lake-city-mn-snow-removal" in examples.
 // Let's stick to a standard pattern: lowercase, dash-separated, plus "-mn-snow-removal" suffix
+
 function toSlug(city: string) {
   return `${city.toLowerCase().replace(/\s+/g, '-')}-mn-snow-removal`;
+}
+
+function toShortSlug(city: string) {
+  return city.toLowerCase().replace(/\s+/g, '-');
 }
 
 function generateStaticPaths() {
@@ -38,8 +43,10 @@ function generateStaticPaths() {
   const routes = [
     'about',
     'partner',
-    // Generate city pages
-    ...SUGGESTED_CITIES.map(toSlug)
+    // Generate city pages (Long SEO versions)
+    ...SUGGESTED_CITIES.map(toSlug),
+    // Generate city pages (Short versions for user convenience)
+    ...SUGGESTED_CITIES.map(toShortSlug)
   ];
 
   console.log(`Generating static paths for ${routes.length} routes...`);

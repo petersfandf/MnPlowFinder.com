@@ -20,6 +20,15 @@ export function SEO({ title, description }: SEOProps) {
       }
       meta.setAttribute('content', description);
     }
+
+    // Update canonical link
+    // Only update if we are not on localhost/dev
+    if (window.location.hostname !== 'localhost') {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (link) {
+        link.setAttribute('href', window.location.href);
+      }
+    }
   }, [title, description]);
 
   return null;
