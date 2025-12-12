@@ -300,6 +300,14 @@ export function ProviderPage({ provider: propProvider }: { provider?: Provider }
                   Always verify insurance and ask for a written estimate before hiring any contractor.
                 </p>
               </div>
+
+              <div className="w-full text-center pt-2">
+                <Link href={`/claim-listing?id=${provider.id}&name=${encodeURIComponent(provider.name)}`}>
+                  <a className="text-xs text-slate-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1">
+                    Claim or update this listing
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
