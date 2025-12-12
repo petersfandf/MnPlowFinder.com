@@ -9,6 +9,7 @@ import { ArrowLeft, Phone, Globe, MapPin, Check, Clock, Truck, Shield, Star, Shi
 import { Provider } from "@/components/ProviderCard";
 import { canRevealPhone, recordPhoneReveal, decodePhone } from "@/lib/utils";
 import { toast } from "sonner";
+import { SEO } from "@/components/SEO";
 
 export function ProviderPage() {
   const [match, params] = useRoute("/provider/:id/:slug");
@@ -107,6 +108,7 @@ export function ProviderPage() {
   if (!provider) {
     return (
       <div className="min-h-screen flex flex-col bg-slate-50">
+        <SEO title="Provider Not Found | MN Plow Finder" />
         <Navigation />
         <div className="flex-grow flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold mb-4">Provider Not Found</h1>
@@ -118,6 +120,10 @@ export function ProviderPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SEO 
+        title={`${provider.name} | Snow Removal in ${provider.city}`} 
+        description={provider.description.substring(0, 160)} 
+      />
       <Navigation />
       
       <main className="container mx-auto px-4 py-8 flex-grow">

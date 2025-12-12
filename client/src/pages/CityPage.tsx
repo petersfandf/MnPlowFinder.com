@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { useMemo } from "react";
+import { SEO } from "@/components/SEO";
 
 // Map of SEO content for specific cities
 const cityContent: Record<string, { title: string; description: string; about: string }> = {
@@ -66,6 +67,7 @@ export function CityPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SEO title={content.title} description={content.description} />
       <Navigation />
       
       <main className="container mx-auto px-4 py-12 flex-grow">

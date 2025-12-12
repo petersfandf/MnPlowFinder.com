@@ -15,6 +15,7 @@ import { Search, MapPin, Filter, PlusCircle, Map as MapIcon, List, ChevronDown, 
 import heroImage from "@assets/generated_images/snowy_residential_street_in_minnesota_winter_with_a_plow_truck_in_distance.png";
 import { siteConfig } from "@/config";
 import { cn } from "@/lib/utils";
+import { SEO } from "@/components/SEO";
 
 const SUGGESTED_CITIES = [
   "Lake City",
@@ -111,6 +112,10 @@ export function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SEO 
+        title="MN Plow Finder | Snow Removal in Southeast Minnesota" 
+        description="Find reliable snow plowing and removal services in Lake City, Red Wing, Wabasha, and Rochester. Free directory for residents." 
+      />
       <Navigation />
       
       {/* Hero Section */}

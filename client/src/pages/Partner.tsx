@@ -1,10 +1,15 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { siteConfig } from "@/config";
+import { SEO } from "@/components/SEO";
 
 export function Partner() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SEO 
+        title="Partner With Us | MN Plow Finder" 
+        description="Collaborate with MN Plow Finder. We work with rural service providers and infrastructure organizations in Southeast Minnesota." 
+      />
       <Navigation />
       
       <main className="container mx-auto px-4 py-12 flex-grow max-w-3xl">

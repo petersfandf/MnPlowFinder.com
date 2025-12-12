@@ -1,10 +1,15 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { siteConfig } from "@/config";
+import { SEO } from "@/components/SEO";
 
 export function About() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
+      <SEO 
+        title="About Us | MN Plow Finder" 
+        description="Learn about MN Plow Finder, a free directory connecting SE Minnesota residents with local snow removal professionals." 
+      />
       <Navigation />
       
       <main className="container mx-auto px-4 py-12 flex-grow max-w-3xl">
