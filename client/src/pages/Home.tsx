@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ProviderCard, Provider } from "@/components/ProviderCard";
@@ -41,6 +41,7 @@ export function Home() {
   // Form state for multi-select cities
   const [formCities, setFormCities] = useState<string[]>([]);
   const [cityPopoverOpen, setCityPopoverOpen] = useState(false);
+  const resultsRef = useRef<HTMLElement>(null);
 
   const toggleCity = (city: string) => {
     setFormCities(current => 
@@ -61,8 +62,10 @@ export function Home() {
 
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
-    const allCities = (providersData as unknown as Provider[]).map(p => p.city);
-    return Array.from(new Set(allCities)).sort();
+    const providerCities = (providersData as unknown as Provider[]).map(p => p.city);
+    // Combine provider cities with suggested cities to ensure complete coverage in dropdown
+    const allCities = new Set([...providerCities, ...SUGGESTED_CITIES]);
+    return Array.from(allCities).sort();
   }, []);
 
   const services = useMemo(() => {
@@ -110,6 +113,16 @@ export function Home() {
     });
   }, [searchTerm, selectedCity, selectedService, sortBy]);
 
+  const handleSearch = () => {
+    // Scroll to results
+    if (resultsRef.current) {
+      const yOffset = -100; // Offset for sticky header
+      const element = resultsRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <SEO 
@@ -146,10 +159,18 @@ export function Home() {
                 placeholder="Search by name or keyword..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               />
             </div>
             <div className="w-full md:w-48">
-              <Select value={selectedCity} onValueChange={setSelectedCity}>
+              <Select value={selectedCity} onValueChange={(val) => {
+                setSelectedCity(val);
+                // Optional: Auto-scroll on city selection? Maybe not, usually users want to hit search.
+              }}>
                 <SelectTrigger className="h-12 bg-slate-50 border-slate-200 text-slate-700">
                   <SelectValue placeholder="City" />
                 </SelectTrigger>
@@ -161,7 +182,10 @@ export function Home() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="h-12 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-900/20">
+            <Button 
+              className="h-12 px-8 text-base font-semibold bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-900/20"
+              onClick={handleSearch}
+            >
               Search
             </Button>
           </div>
@@ -169,7 +193,7 @@ export function Home() {
       </section>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-12 flex-grow">
+      <main className="container mx-auto px-4 py-12 flex-grow" ref={resultsRef}>
         
         {/* Filters Section */}
         <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm sticky top-16 z-40 mb-8">
