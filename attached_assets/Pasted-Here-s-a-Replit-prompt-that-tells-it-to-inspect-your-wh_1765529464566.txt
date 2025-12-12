@@ -1,0 +1,101 @@
+Here’s a Replit prompt that tells it to inspect your whole repo first, then produce the complete URL list, and finally generate an optimized sitemap.xml + robots.txt for your static GitHub Pages deployment.
+
+Copy/paste this into Replit AI:
+
+⸻
+
+Replit Prompt (Full-picture first, then sitemap/robots)
+
+You are working inside my repo for mnplowfinder.com (Vite + React + wouter). Before you change anything, you must first inventory all real site URLs and show me what you found so we’re aligned.
+
+1) First: Map the full URL structure (no assumptions)
+
+Inspect these and anything else needed:
+	•	client/src/App.tsx (routing)
+	•	client/src/pages/* (Home, CityPage, ProviderPage, About, Partner, etc.)
+	•	client/src/data/providers.json (provider records; includes id, name, city, and possibly slug logic)
+	•	Any slug helpers or route builders (search for: slug, toSlug, slugify, createSlug, provider/:id/:slug, etc.)
+	•	Any city page slug rules (search for: CityPage, :slug, “-mn-”, “snow-removal”, etc.)
+
+Deliverable A (print to console / chat):
+	•	A definitive list of all URL patterns (static + dynamic), including:
+	•	/
+	•	/about
+	•	/partner
+	•	Provider details pages pattern: /provider/:id/:slug
+	•	City pages pattern: /:slug (and what slugs are considered valid vs. 404)
+	•	A generated list of all actual URLs the site currently supports:
+	•	All provider URLs (one per provider)
+	•	All city URLs (one per city page you generate/support)
+	•	Any other pages
+
+If you cannot determine exact slugs from code, you must find where slugs are computed and report that function.
+
+2) Second: Generate an SEO sitemap (static-host friendly)
+
+Create a small build-time generator script that produces client/public/sitemap.xml from the repo data + routing rules.
+
+Rules:
+	•	Base URL: https://mnplowfinder.com
+	•	Include:
+	•	/ (priority 1.0)
+	•	/about (priority ~0.6)
+	•	/partner (priority ~0.6)
+	•	Every provider page URL (priority ~0.8)
+	•	Every city page URL (priority ~0.7)
+	•	Use <lastmod> as today’s date when generating, OR (preferred) compute lastmod from providers.json git commit info if you can do it simply; otherwise use today.
+	•	Keep sitemap under 50k URLs (we’re nowhere near that).
+	•	Output must be valid XML and readable.
+
+Deliverable B:
+	•	The generated client/public/sitemap.xml
+	•	The generator script added to repo (e.g. scripts/generate-sitemap.mjs or script/generate-sitemap.ts)
+	•	Add an npm script:
+	•	"generate:sitemap": "node scripts/generate-sitemap.mjs"
+	•	And ensure it runs automatically before build (e.g. in "build" or a "prebuild" hook)
+
+3) Third: Fix/confirm robots.txt
+
+Create or update client/public/robots.txt:
+
+Minimum:
+
+User-agent: *
+Allow: /
+
+Sitemap: https://mnplowfinder.com/sitemap.xml
+
+Also verify:
+	•	No accidental Disallow: /
+	•	No blocking of JS/CSS assets needed for rendering
+
+Deliverable C:
+	•	Updated client/public/robots.txt
+
+4) Fourth: Confirm GitHub Pages compatibility (SPA routing)
+
+Because this is a single-page app on GitHub Pages, ensure:
+	•	Direct navigation to /about, /partner, /provider/..., and city slugs does not 404 on refresh.
+	•	If needed, implement a GitHub Pages SPA fallback:
+	•	Prefer the common approach using a 404.html that redirects to index.html with path handling, OR another static-compatible fallback approach.
+	•	Do not add any server code; site must remain static.
+
+Deliverable D:
+	•	A brief note explaining what you implemented (or confirmed) for SPA refresh routing on GitHub Pages, and exactly which files changed.
+
+5) Final: Show me the URL inventory
+
+After implementation, print:
+	•	Total provider URLs generated
+	•	Total city URLs generated
+	•	Full list of URLs (or a saved file scripts/url-inventory.txt if long)
+
+Do not proceed with extra SEO features beyond sitemap/robots/SPA refresh unless I ask.
+
+⸻
+
+Quick note (so you know what you’re asking Replit to do)
+
+Because your site is a React SPA, Google can crawl it, but your sitemap needs the real URLs (provider + city pages). The prompt above forces Replit to derive slugs from your actual code so the sitemap matches reality.
+
+If you want, paste your current slug function (where provider/city slugs are created) and I can tighten this prompt even further—but this one should already get Replit to pull the full picture itself.
