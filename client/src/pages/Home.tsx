@@ -218,10 +218,32 @@ export function Home() {
 
           {/* Collapsible Content */}
           <div className={`mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 ${isFiltersOpen ? "block" : "hidden sm:flex"}`}>
-            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-             <Select value={selectedService} onValueChange={setSelectedService}>
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto items-center">
+              {/* City Filter */}
+              <Select value={selectedCity} onValueChange={setSelectedCity}>
                 <SelectTrigger className="w-full sm:w-[200px] bg-white border-slate-200">
-                  <SelectValue placeholder="Service Type" />
+                  <div className="flex items-center truncate">
+                    <span className="text-slate-500 mr-2 font-normal shrink-0">City:</span>
+                    <SelectValue placeholder="Filter by City" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Cities</SelectItem>
+                  {cities.map(city => (
+                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
+
+              {/* Service Filter */}
+              <Select value={selectedService} onValueChange={setSelectedService}>
+                <SelectTrigger className="w-full sm:w-[200px] bg-white border-slate-200">
+                  <div className="flex items-center truncate">
+                     <span className="text-slate-500 mr-2 font-normal shrink-0">Service:</span>
+                     <SelectValue placeholder="Service Type" />
+                  </div>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Services</SelectItem>
@@ -233,10 +255,14 @@ export function Home() {
               
               <div className="h-10 w-px bg-slate-200 mx-2 hidden sm:block"></div>
 
-              <div className="w-full sm:w-[180px]">
+              {/* Sort Filter */}
+              <div className="w-full sm:w-[220px]">
                 <Select value={sortBy} onValueChange={(val: any) => setSortBy(val)}>
                   <SelectTrigger className="w-full bg-white border-slate-200">
-                    <SelectValue placeholder="Sort by" />
+                    <div className="flex items-center truncate">
+                      <span className="text-slate-500 mr-2 font-normal shrink-0">Sort by:</span>
+                      <SelectValue placeholder="Sort by" />
+                    </div>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="recommended">Recommended</SelectItem>
