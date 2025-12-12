@@ -9,7 +9,12 @@ import { Provider } from "@/components/ProviderCard";
 
 export function DynamicSlugPage() {
   const [match, params] = useRoute("/:slug");
-  const slug = params?.slug || "";
+  
+  // Normalize slug: remove trailing slash, lowercase
+  const rawSlug = params?.slug || "";
+  const slug = rawSlug.toLowerCase().replace(/\/$/, "");
+
+  console.log("DynamicSlugPage: Raw slug:", rawSlug, "Normalized:", slug);
 
   // 1. Check if it's a City Page
   // Matches "lake-city" or "lake-city-mn-snow-removal"
@@ -20,15 +25,23 @@ export function DynamicSlugPage() {
   });
 
   if (isCity) {
+    console.log("DynamicSlugPage: Matched city:", slug);
     return <CityPage />;
   }
 
   // 2. Check if it's a Provider Page
-  const provider = providersData.find(p => slugify(p.name) === slug) as Provider | undefined;
+  const provider = providersData.find(p => {
+    const pSlug = slugify(p.name);
+    // console.log(`Checking provider: ${p.name} -> ${pSlug} === ${slug}`);
+    return pSlug === slug;
+  }) as Provider | undefined;
 
   if (provider) {
+    console.log("DynamicSlugPage: Matched provider:", provider.name);
     return <ProviderPage provider={provider} />;
   }
+
+  console.warn("DynamicSlugPage: No match found for slug:", slug);
 
   // 3. Not Found
   return <NotFound />;
