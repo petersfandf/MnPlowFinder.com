@@ -62,16 +62,50 @@ export function Home() {
 
   // Extract unique cities and services for filters
   const cities = useMemo(() => {
+    // Base providers are those matching the search term
+    const searchMatches = (providersData as unknown as Provider[]).filter((provider) => {
+      const term = searchTerm.toLowerCase();
+      return provider.name.toLowerCase().includes(term) ||
+             provider.description.toLowerCase().includes(term);
+    });
+
+    // If search term exists, only show cities from matching providers
+    // Otherwise show all cities + suggested
+    if (searchTerm) {
+      const matchedCities = new Set<string>();
+      searchMatches.forEach(p => {
+        matchedCities.add(p.city);
+        p.serviceAreas.forEach(area => matchedCities.add(area));
+      });
+      return Array.from(matchedCities).sort();
+    }
+
     const providerCities = (providersData as unknown as Provider[]).map(p => p.city);
     // Combine provider cities with suggested cities to ensure complete coverage in dropdown
     const allCities = new Set([...providerCities, ...SUGGESTED_CITIES]);
     return Array.from(allCities).sort();
-  }, []);
+  }, [searchTerm]);
 
   const services = useMemo(() => {
+     // Base providers are those matching the search term
+    const searchMatches = (providersData as unknown as Provider[]).filter((provider) => {
+      const term = searchTerm.toLowerCase();
+      return provider.name.toLowerCase().includes(term) ||
+             provider.description.toLowerCase().includes(term);
+    });
+
+    // If search term exists, only show services from matching providers
+    if (searchTerm) {
+      const matchedServices = new Set<string>();
+      searchMatches.forEach(p => {
+        p.services.forEach(s => matchedServices.add(s));
+      });
+      return Array.from(matchedServices).sort();
+    }
+
     const allServices = (providersData as unknown as Provider[]).flatMap(p => p.services);
     return Array.from(new Set(allServices)).sort();
-  }, []);
+  }, [searchTerm]);
 
   // Filter providers logic
   const filteredProviders = useMemo(() => {
