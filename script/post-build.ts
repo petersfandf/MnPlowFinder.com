@@ -25,6 +25,15 @@ function toShortSlug(city: string) {
   return city.toLowerCase().replace(/\s+/g, '-');
 }
 
+// Helper to slugify text (matches ProviderCard.tsx but cleaner for URL safety)
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/&/g, 'and') // Replace & with 'and'
+    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with dash
+    .replace(/^-+|-+$/g, ''); // Trim dashes
+}
+
 function generateStaticPaths() {
   if (!fs.existsSync(DIST_DIR)) {
     console.error(`Dist directory ${DIST_DIR} does not exist. Run build first.`);
@@ -39,8 +48,13 @@ function generateStaticPaths() {
 
   const indexHtmlContent = fs.readFileSync(indexHtmlPath, 'utf-8');
 
-  // Define routes to generate
-  const routes = [
+  // Load providers
+  const PROVIDERS_PATH = path.resolve(__dirname, '../client/src/data/providers.json');
+  const providersRaw = fs.readFileSync(PROVIDERS_PATH, 'utf-8');
+  const providers = JSON.parse(providersRaw);
+  
+  // Define city routes to generate
+  const cityRoutes = [
     'about',
     'partner',
     // Generate city pages (Long SEO versions)
@@ -49,9 +63,9 @@ function generateStaticPaths() {
     ...SUGGESTED_CITIES.map(toShortSlug)
   ];
 
-  console.log(`Generating static paths for ${routes.length} routes...`);
+  console.log(`Generating static paths for ${cityRoutes.length} city/static routes...`);
 
-  routes.forEach(route => {
+  cityRoutes.forEach(route => {
     const routeDir = path.join(DIST_DIR, route);
     
     // Create directory if it doesn't exist
@@ -62,6 +76,22 @@ function generateStaticPaths() {
     // Write index.html copy
     fs.writeFileSync(path.join(routeDir, 'index.html'), indexHtmlContent);
     console.log(`Created ${route}/index.html`);
+  });
+
+  console.log(`Generating static paths for ${providers.length} providers...`);
+
+  // Generate provider routes: /provider/:id/:slug
+  providers.forEach((provider: any) => {
+    const slug = slugify(provider.name);
+    // Create nested directory structure: dist/public/provider/123/company-name
+    const providerDir = path.join(DIST_DIR, 'provider', provider.id.toString(), slug);
+    
+    if (!fs.existsSync(providerDir)) {
+      fs.mkdirSync(providerDir, { recursive: true });
+    }
+    
+    fs.writeFileSync(path.join(providerDir, 'index.html'), indexHtmlContent);
+    console.log(`Created provider/${provider.id}/${slug}/index.html`);
   });
 
   console.log('Static path generation complete.');
