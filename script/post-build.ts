@@ -80,18 +80,28 @@ function generateStaticPaths() {
 
   console.log(`Generating static paths for ${providers.length} providers...`);
 
-  // Generate provider routes: /provider/:id/:slug
+  // Generate provider routes: /provider/:id/:slug AND short /:slug
   providers.forEach((provider: any) => {
     const slug = slugify(provider.name);
-    // Create nested directory structure: dist/public/provider/123/company-name
-    const providerDir = path.join(DIST_DIR, 'provider', provider.id.toString(), slug);
     
+    // 1. Nested directory structure: dist/public/provider/123/company-name
+    const providerDir = path.join(DIST_DIR, 'provider', provider.id.toString(), slug);
     if (!fs.existsSync(providerDir)) {
       fs.mkdirSync(providerDir, { recursive: true });
     }
-    
     fs.writeFileSync(path.join(providerDir, 'index.html'), indexHtmlContent);
     console.log(`Created provider/${provider.id}/${slug}/index.html`);
+
+    // 2. Short URL structure: dist/public/company-name
+    // Only create if it doesn't conflict with existing city routes or static pages
+    const shortDir = path.join(DIST_DIR, slug);
+    if (!fs.existsSync(shortDir)) {
+       fs.mkdirSync(shortDir, { recursive: true });
+       fs.writeFileSync(path.join(shortDir, 'index.html'), indexHtmlContent);
+       console.log(`Created ${slug}/index.html (Short URL)`);
+    } else {
+       console.log(`Skipping short URL for ${slug} (Collision or exists)`);
+    }
   });
 
   console.log('Static path generation complete.');

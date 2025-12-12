@@ -11,11 +11,16 @@ import { canRevealPhone, recordPhoneReveal, decodePhone } from "@/lib/utils";
 import { toast } from "sonner";
 import { SEO } from "@/components/SEO";
 
-export function ProviderPage() {
+export function ProviderPage({ provider: propProvider }: { provider?: Provider }) {
   const [match, params] = useRoute("/provider/:id/:slug");
-  const id = parseInt(params?.id || "0");
   
-  const provider = providersData.find(p => p.id === id) as Provider | undefined;
+  let provider = propProvider;
+  let id = provider?.id || 0;
+  
+  if (!provider) {
+    id = parseInt(params?.id || "0");
+    provider = providersData.find(p => p.id === id) as Provider | undefined;
+  }
 
   // State for press-and-hold functionality
   const [showPhone, setShowPhone] = useState(false);

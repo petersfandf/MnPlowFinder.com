@@ -7,8 +7,8 @@ import NotFound from "@/pages/not-found";
 import { Home } from "@/pages/Home";
 import { About } from "@/pages/About";
 import { Partner } from "@/pages/Partner";
-import { CityPage } from "@/pages/CityPage";
 import { ProviderPage } from "@/pages/ProviderPage";
+import { DynamicSlugPage } from "@/pages/DynamicSlugPage";
 import { useEffect } from "react";
 
 // Hook to handle hash scrolling even with hash routing
@@ -42,8 +42,8 @@ function AppRoutes() {
       <Route path="/about" component={About} />
       <Route path="/partner" component={Partner} />
       <Route path="/provider/:id/:slug" component={ProviderPage} />
-      {/* Catch-all for city pages like /lake-city-mn-snow-removal */}
-      <Route path="/:slug" component={CityPage} />
+      {/* Catch-all for both Cities and Providers */}
+      <Route path="/:slug" component={DynamicSlugPage} />
       <Route component={NotFound} />
     </Switch>
   );
